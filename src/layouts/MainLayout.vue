@@ -18,6 +18,18 @@
         <q-btn
           flat
           round
+          icon="access_time"
+        >
+          <q-tooltip anchor="bottom middle" self="top middle" class="text-body2 bg-dark">
+            Working Hours
+          </q-tooltip>
+
+          <WorkingHourSetting/>
+        </q-btn>
+
+        <q-btn
+          flat
+          round
           icon="date_range"
         >
           <q-tooltip anchor="bottom middle" self="top middle" class="text-body2 bg-dark">
@@ -75,11 +87,12 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
 import { useSettingsStore } from 'src/stores/settings-store';
-import DateSettings from 'src/components/DateSettings.vue';
-import ExportText from 'src/components/ExportText.vue';
 import { useGoogle } from 'src/composables/useGoogle';
 import { useGoogleCalendar } from 'src/composables/useGoogleCalendar';
 import { useGoogleSheets } from 'src/composables/useGoogleSheets';
+import DateSettings from 'src/components/DateSettings.vue';
+import WorkingHourSetting from 'src/components/WorkingHourSetting.vue';
+import ExportText from 'src/components/ExportText.vue';
 
 const { avatarUrl } = storeToRefs(useSettingsStore());
 const { isLoading, isAuthenticated } = useGoogle();

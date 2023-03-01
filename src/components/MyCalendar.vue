@@ -17,7 +17,13 @@ import { FullCalendarRef } from 'src/interfaces/calendar';
 
 const { events, selectedEvents, toggleSelectedEvent } = useCalendar();
 
-const { minDate, maxDate } = storeToRefs(useSettingsStore());
+const {
+  minDate, maxDate,
+  morningBeginTime,
+  morningEndTime,
+  afternoonBeginTime,
+  afternoonEndTime,
+} = storeToRefs(useSettingsStore());
 
 const fullCalendar = ref<FullCalendarRef | null>(null);
 
@@ -35,12 +41,12 @@ const calendarOptions = computed<CalendarOptions>(() => ({
   },
   businessHours: [{
     daysOfWeek: [0, 1, 2, 3, 4, 5, 6],
-    startTime: '11:00',
-    endTime: '13:00',
+    startTime: morningBeginTime.value,
+    endTime: morningEndTime.value,
   }, {
     daysOfWeek: [0, 1, 2, 3, 4, 5, 6],
-    startTime: '14:00',
-    endTime: '18:00',
+    startTime: afternoonBeginTime.value,
+    endTime: afternoonEndTime.value,
   }],
   eventBackgroundColor: 'white',
   eventTextColor: '#3788d8',

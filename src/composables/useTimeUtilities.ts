@@ -5,6 +5,10 @@ import { computed } from 'vue';
 
 const {
   days,
+  getMorningBeginTimeObject,
+  getMorningEndTimeObject,
+  getAfternoonBeginTimeObject,
+  getAafternoonEndTimeObject,
 } = storeToRefs(useSettingsStore());
 
 const createEventInterval = (event: any) => Interval.fromDateTimes(
@@ -24,8 +28,8 @@ const workDayIntervals = computed(() => days.value
   .flatMap((day) => Interval.fromDateTimes(day.from, day.to).splitBy({ days: 1 })));
 
 const workTimeIntervals = computed(() => workDayIntervals.value.flatMap((day) => [
-  Interval.fromDateTimes(day.start.plus({ hours: 11 }), day.start.plus({ hours: 13 })),
-  Interval.fromDateTimes(day.start.plus({ hours: 14 }), day.start.plus({ hours: 18 })),
+  Interval.fromDateTimes(day.start.plus(getMorningBeginTimeObject.value), day.start.plus(getMorningEndTimeObject.value)),
+  Interval.fromDateTimes(day.start.plus(getAfternoonBeginTimeObject.value), day.start.plus(getAafternoonEndTimeObject.value)),
 ]));
 
 export const useTimeUtilities = () => ({
