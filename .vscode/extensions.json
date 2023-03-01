@@ -1,7 +1,10 @@
 {
   "recommendations": [
+    "abdelaziz18003.quasar-snippets",
+    "codecoaching.quasar-docs",
     "dbaeumer.vscode-eslint",
     "editorconfig.editorconfig",
+    "vue.vscode-typescript-vue-plugin",
     "vue.volar",
     "wayou.vscode-todo-highlight"
   ],
