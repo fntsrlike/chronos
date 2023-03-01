@@ -49,7 +49,10 @@
 <script setup lang="ts">
 import DateSettings from 'src/components/DateSettings.vue';
 import ExportText from 'src/components/ExportText.vue';
+import { useGoogle } from 'src/composables/useGoogle';
 import { useGoogleCalendar } from 'src/composables/useGoogleCalendar';
 
-const { updateEvents, isLoading, isAuthenticated } = useGoogleCalendar();
+const { isLoading, isAuthenticated } = useGoogle();
+const { updateEvents } = useGoogleCalendar();
+
 </script>
