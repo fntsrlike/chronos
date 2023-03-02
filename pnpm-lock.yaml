@@ -9,6 +9,7 @@ specifiers:
   '@quasar/extras': ^1.0.0
   '@types/gapi': ^0.0.43
   '@types/gapi.calendar': ^3.0.6
+  '@types/gapi.client.sheets': ^4.0.20201031
   '@types/google.accounts': ^0.0.4
   '@types/lodash': ^4.14.191
   '@types/luxon': ^3.1.0
@@ -48,6 +49,7 @@ devDependencies:
   '@quasar/app-vite': 1.1.3_kljzsq2fhtxj2pgdcgccqufm2e
   '@types/gapi': 0.0.43
   '@types/gapi.calendar': 3.0.6
+  '@types/gapi.client.sheets': 4.0.20201031
   '@types/google.accounts': 0.0.4
   '@types/lodash': 4.14.191
   '@types/luxon': 3.1.0
@@ -168,6 +170,20 @@ packages:
 
   /@humanwhocodes/object-schema/1.2.1:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
+    dev: true
+
+  /@maxim_mazurok/gapi.client.discovery-v1/0.0.20200806:
+    resolution: {integrity: sha512-0pZtrElj8bc0YROIo7nH8VVvks/iww/L68l7r74oC9+ksSVO3Lum1zUR8dXTvJ7TqLGaNYiiNaUZianK6doh/w==}
+    dependencies:
+      '@types/gapi.client': 1.0.5
+      '@types/gapi.client.discovery': 1.0.9
+    dev: true
+
+  /@maxim_mazurok/gapi.client.sheets-v4/0.0.20230307:
+    resolution: {integrity: sha512-XReChe+wWWiWEIU3cTkYXSgjWp9orAgHtqIgGcJhZs6d6eMORqhsrU9aJO2owcU8soXXnQ1MRSbyl0Hal5V2JA==}
+    dependencies:
+      '@types/gapi.client': 1.0.5
+      '@types/gapi.client.discovery': 1.0.9
     dev: true
 
   /@nodelib/fs.scandir/2.1.5:
@@ -362,6 +378,23 @@ packages:
     resolution: {integrity: sha512-5POp+QFcJh7yHHOaOc3pkvEZq99u8EzaHuAL+0XcrNKQpN6EM9T6guQ2Q2O39KWkxGvAKdshDv2ZwB7I+v+t3A==}
     dependencies:
       '@types/gapi': 0.0.43
+    dev: true
+
+  /@types/gapi.client.discovery/1.0.9:
+    resolution: {integrity: sha512-51fXpt7DM7+zPG5pgwnNr3KaRXmyszznu66VPpV7+FAu0LGtpTohvdfvkRCnCn2Z6EgNTq/baFAtCa/9ylHOug==}
+    deprecated: use @types/gapi.client.discovery-v1 instead; see https://github.com/Maxim-Mazurok/google-api-typings-generator/issues/652 for details
+    dependencies:
+      '@maxim_mazurok/gapi.client.discovery-v1': 0.0.20200806
+    dev: true
+
+  /@types/gapi.client.sheets/4.0.20201031:
+    resolution: {integrity: sha512-1Aiu11rNNoyPDHW6v8TVcSmlDN+MkxSuafwiawaK5YqZ+uYA+O63vjUvkK+3qNduSLh7D9qBJc/8GGwgN6gsTw==}
+    dependencies:
+      '@maxim_mazurok/gapi.client.sheets-v4': 0.0.20230307
+    dev: true
+
+  /@types/gapi.client/1.0.5:
+    resolution: {integrity: sha512-OTpbBMuzfC4lkvaomxqskI/iWRGW3zOZbDXZLNSyiuswTiSSGgILRLkg0POuZ4EgzEdaYaTlXpnXiCp07ri/Yw==}
     dev: true
 
   /@types/gapi/0.0.43:

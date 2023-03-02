@@ -6,10 +6,12 @@ const API_KEY = process.env.GOOGLE_API_KEY;
 const DISCOVERY_DOCS = [
   // Look up APIs URL from https://www.googleapis.com/discovery/v1/apis/
   'https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest',
+  'https://www.googleapis.com/discovery/v1/apis/sheets/v4/rest',
 ];
 const SCOPES = [
   // Look up scopes URL from https://developers.google.com/identity/protocols/oauth2/scopes
   'https://www.googleapis.com/auth/calendar.readonly',
+  'https://www.googleapis.com/auth/spreadsheets',
 ];
 
 const gapiLoaded = ref(false);

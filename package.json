@@ -30,6 +30,7 @@
     "@quasar/app-vite": "^1.0.0",
     "@types/gapi": "^0.0.43",
     "@types/gapi.calendar": "^3.0.6",
+    "@types/gapi.client.sheets": "^4.0.20201031",
     "@types/google.accounts": "^0.0.4",
     "@types/lodash": "^4.14.191",
     "@types/luxon": "^3.1.0",
