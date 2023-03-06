@@ -73,6 +73,8 @@ module.exports = configure((/* ctx */) => ({
     env: {
       GOOGLE_API_CLIENT_ID: process.env.GOOGLE_API_CLIENT_ID,
       GOOGLE_API_KEY: process.env.GOOGLE_API_KEY,
+      SPREADSHEET_ID: process.env.SPREADSHEET_ID,
+      SHEET_NAME: process.env.SHEET_NAME,
     },
     // rawDefine: {}
     // ignorePublicFolder: true,
