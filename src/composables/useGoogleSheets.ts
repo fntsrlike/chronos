@@ -17,7 +17,7 @@ const appendData = async () => {
   };
 
   const {
-    minDate, maxDate, name,
+    minDate, maxDate, recordType, name,
   } = storeToRefs(useSettingsStore());
 
   const {
@@ -31,7 +31,7 @@ const appendData = async () => {
   const createdAt = DateTime.now().toFormat('yyyy-LL-dd TT');
 
   const data = [
-    from, to,
+    from, to, recordType,
     name,
     workHours, leaveHours, supportHours, meetingHours, improvingHours,
     devHours, focusDevHours, brokenDevHours,

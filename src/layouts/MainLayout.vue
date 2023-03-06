@@ -15,6 +15,26 @@
           v-if="isAuthenticated"
         >
         </q-btn>
+
+        <q-separator
+          vertical
+          v-if="isAuthenticated"/>
+
+        <q-btn
+          flat
+          round
+          :icon="isForecast ? 'hourglass_top' : 'hourglass_bottom' "
+          :color="isForecast ? 'orange' : 'yellow' "
+          @click="toggleRecordType"
+        >
+          <q-tooltip anchor="bottom middle" self="top middle" class="text-body2 bg-dark" v-if="isForecast" >
+            Forecast mode
+          </q-tooltip>
+          <q-tooltip anchor="bottom middle" self="top middle" class="text-body2 bg-dark" v-if="!isForecast" >
+            Actual mode
+          </q-tooltip>
+        </q-btn>
+
         <q-btn
           flat
           round
@@ -94,9 +114,10 @@ import DateSettings from 'src/components/DateSettings.vue';
 import WorkingHourSetting from 'src/components/WorkingHourSetting.vue';
 import ExportText from 'src/components/ExportText.vue';
 
-const { avatarUrl } = storeToRefs(useSettingsStore());
+const { avatarUrl, isForecast } = storeToRefs(useSettingsStore());
 const { isLoading, isAuthenticated } = useGoogle();
 const { updateEvents } = useGoogleCalendar();
 const { sendData } = useGoogleSheets();
 
+const toggleRecordType = () => { isForecast.value = !isForecast.value; };
 </script>

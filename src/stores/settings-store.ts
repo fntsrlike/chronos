@@ -9,6 +9,9 @@ export const useSettingsStore = defineStore('settings', () => {
   const email = ref('unknown@email.com');
   const avatarUrl = ref('');
 
+  const isForecast = ref(true);
+  const recordType = computed(() => (isForecast.value ? 'forecast' : 'actual'));
+
   const days = ref([
     {
       from: DateTime.now().startOf('week'), // inclusive
@@ -37,6 +40,8 @@ export const useSettingsStore = defineStore('settings', () => {
     name,
     email,
     avatarUrl,
+    isForecast,
+    recordType,
     days,
     minDate,
     maxDate,
