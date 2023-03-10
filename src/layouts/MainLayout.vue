@@ -23,6 +23,17 @@
         <q-btn
           flat
           round
+          icon="settings"
+        >
+          <q-tooltip anchor="bottom middle" self="top middle" class="text-body2 bg-dark">
+            Other Setting
+          </q-tooltip>
+          <OtherSetting/>
+        </q-btn>
+
+        <q-btn
+          flat
+          round
           :icon="isForecast ? 'hourglass_top' : 'hourglass_bottom' "
           :color="isForecast ? 'orange' : 'yellow' "
           @click="toggleRecordType"
@@ -112,6 +123,7 @@ import { useGoogleCalendar } from 'src/composables/useGoogleCalendar';
 import { useGoogleSheets } from 'src/composables/useGoogleSheets';
 import DateSettings from 'src/components/DateSettings.vue';
 import WorkingHourSetting from 'src/components/WorkingHourSetting.vue';
+import OtherSetting from 'src/components/OtherSetting.vue';
 import ExportText from 'src/components/ExportText.vue';
 
 const { avatarUrl, isForecast } = storeToRefs(useSettingsStore());

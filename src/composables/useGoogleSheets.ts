@@ -17,7 +17,7 @@ const appendData = async () => {
   };
 
   const {
-    minDate, maxDate, recordType, name,
+    minDate, maxDate, recordType, teamName, name,
   } = storeToRefs(useSettingsStore());
 
   const {
@@ -32,7 +32,7 @@ const appendData = async () => {
 
   const data = [
     from, to, recordType,
-    name,
+    teamName, name,
     workHours, leaveHours, supportHours, meetingHours, improvingHours,
     devHours, focusDevHours, brokenDevHours,
     devWithoutImprovingHours, focusDevWithoutImprovingHours, brokenDevWithoutImprovingHours,

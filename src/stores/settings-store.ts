@@ -8,6 +8,7 @@ export const useSettingsStore = defineStore('settings', () => {
   const name = ref('unknown name');
   const email = ref('unknown@email.com');
   const avatarUrl = ref('');
+  const teamName = useLocalStorage('teamName', 'awesome team');
 
   const isForecast = ref(true);
   const recordType = computed(() => (isForecast.value ? 'forecast' : 'actual'));
@@ -40,6 +41,7 @@ export const useSettingsStore = defineStore('settings', () => {
     name,
     email,
     avatarUrl,
+    teamName,
     isForecast,
     recordType,
     days,
