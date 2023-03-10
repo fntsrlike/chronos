@@ -7,7 +7,14 @@
         <q-toolbar-title>
           Chronos
         </q-toolbar-title>
-
+        <q-btn
+          flat
+          round
+          icon="send"
+          @click="sendData"
+          v-if="isAuthenticated"
+        >
+        </q-btn>
         <q-btn
           flat
           round
@@ -51,8 +58,10 @@ import DateSettings from 'src/components/DateSettings.vue';
 import ExportText from 'src/components/ExportText.vue';
 import { useGoogle } from 'src/composables/useGoogle';
 import { useGoogleCalendar } from 'src/composables/useGoogleCalendar';
+import { useGoogleSheets } from 'src/composables/useGoogleSheets';
 
 const { isLoading, isAuthenticated } = useGoogle();
 const { updateEvents } = useGoogleCalendar();
+const { sendData } = useGoogleSheets();
 
 </script>
