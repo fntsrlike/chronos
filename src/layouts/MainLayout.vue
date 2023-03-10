@@ -31,13 +31,32 @@
           flat
           round
           :icon="isAuthenticated ? 'face' : 'account_circle'"
+          :text-color="isAuthenticated ? '' : 'grey'"
           :loading="isLoading"
           @click="updateEvents"
+          v-if="!isAuthenticated"
         >
-          <q-tooltip v-if="!isAuthenticated" anchor="bottom middle" self="top middle" class="text-body2 bg-dark">
+          <q-tooltip  anchor="bottom middle" self="top middle" class="text-body2 bg-dark">
             Sign in with Google
           </q-tooltip>
+          <template v-slot:loading>
+            <q-spinner/>
+          </template>
+        </q-btn>
 
+        <q-btn
+          flat
+          round
+          :loading="isLoading"
+          @click="updateEvents"
+          v-if="isAuthenticated"
+        >
+          <q-tooltip  anchor="bottom middle" self="top middle" class="text-body2 bg-dark">
+            Refresh
+          </q-tooltip>
+          <q-avatar size="24px">
+            <img :src="avatarUrl">
+          </q-avatar>
           <template v-slot:loading>
             <q-spinner/>
           </template>
@@ -54,12 +73,15 @@
 </template>
 
 <script setup lang="ts">
+import { storeToRefs } from 'pinia';
+import { useSettingsStore } from 'src/stores/settings-store';
 import DateSettings from 'src/components/DateSettings.vue';
 import ExportText from 'src/components/ExportText.vue';
 import { useGoogle } from 'src/composables/useGoogle';
 import { useGoogleCalendar } from 'src/composables/useGoogleCalendar';
 import { useGoogleSheets } from 'src/composables/useGoogleSheets';
 
+const { avatarUrl } = storeToRefs(useSettingsStore());
 const { isLoading, isAuthenticated } = useGoogle();
 const { updateEvents } = useGoogleCalendar();
 const { sendData } = useGoogleSheets();

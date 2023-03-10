@@ -16,7 +16,7 @@ const appendData = async () => {
   };
 
   const {
-    minDate, maxDate,
+    minDate, maxDate, name,
   } = storeToRefs(useSettingsStore());
 
   const from = minDate.value.toFormat('yyyy-LL-dd');
@@ -25,6 +25,7 @@ const appendData = async () => {
 
   const data = [
     from, to,
+    name,
     createdAt,
   ].map((d) => (unref(d)));
 

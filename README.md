@@ -5,6 +5,9 @@
   - Add following to scope when you setup consent screen.
     - `https://www.googleapis.com/auth/calendar.readonly`
     - `https://www.googleapis.com/auth/spreadsheets`
+    - `https://www.googleapis.com/auth/userinfo.email`,
+    - `https://www.googleapis.com/auth/userinfo.profile`,
+    - `https://www.googleapis.com/auth/user.emails.read`,
 2. Clone `.env.sample` and rename to `.env`.
 3. Fill `GOOGLE_API_CLIENT_ID` and `API_KEY` from step 1.
 

@@ -9,6 +9,7 @@ specifiers:
   '@quasar/extras': ^1.0.0
   '@types/gapi': ^0.0.43
   '@types/gapi.calendar': ^3.0.6
+  '@types/gapi.client.people': ^1.0.5
   '@types/gapi.client.sheets': ^4.0.20201031
   '@types/google.accounts': ^0.0.4
   '@types/lodash': ^4.14.191
@@ -49,6 +50,7 @@ devDependencies:
   '@quasar/app-vite': 1.1.3_kljzsq2fhtxj2pgdcgccqufm2e
   '@types/gapi': 0.0.43
   '@types/gapi.calendar': 3.0.6
+  '@types/gapi.client.people': 1.0.5
   '@types/gapi.client.sheets': 4.0.20201031
   '@types/google.accounts': 0.0.4
   '@types/lodash': 4.14.191
@@ -174,6 +176,13 @@ packages:
 
   /@maxim_mazurok/gapi.client.discovery-v1/0.0.20200806:
     resolution: {integrity: sha512-0pZtrElj8bc0YROIo7nH8VVvks/iww/L68l7r74oC9+ksSVO3Lum1zUR8dXTvJ7TqLGaNYiiNaUZianK6doh/w==}
+    dependencies:
+      '@types/gapi.client': 1.0.5
+      '@types/gapi.client.discovery': 1.0.9
+    dev: true
+
+  /@maxim_mazurok/gapi.client.people-v1/0.0.20230315:
+    resolution: {integrity: sha512-XECKIgNEcmwzzcT8faxPra9/Z98CnaJvycZMKDxnIBH0Z7Sn1uO3OE5fk1HsW+eOe405BnrLiZ1NFCSNW9sA3g==}
     dependencies:
       '@types/gapi.client': 1.0.5
       '@types/gapi.client.discovery': 1.0.9
@@ -385,6 +394,13 @@ packages:
     deprecated: use @types/gapi.client.discovery-v1 instead; see https://github.com/Maxim-Mazurok/google-api-typings-generator/issues/652 for details
     dependencies:
       '@maxim_mazurok/gapi.client.discovery-v1': 0.0.20200806
+    dev: true
+
+  /@types/gapi.client.people/1.0.5:
+    resolution: {integrity: sha512-N0nyktgGQWWwbVf82LQGvh557LjZ11MCIlZOjdg55d/QoCmXDD+HxxZ8NaUUjOEBSlJQjWN+tJfluGYa8oso+A==}
+    deprecated: use @types/gapi.client.people-v1 instead; see https://github.com/Maxim-Mazurok/google-api-typings-generator/issues/652 for details
+    dependencies:
+      '@maxim_mazurok/gapi.client.people-v1': 0.0.20230315
     dev: true
 
   /@types/gapi.client.sheets/4.0.20201031:
