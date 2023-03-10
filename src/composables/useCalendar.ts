@@ -3,6 +3,9 @@ import { ref, computed, watch } from 'vue';
 import { useGoogleCalendar } from './useGoogleCalendar';
 import { useTimeUtilities } from './useTimeUtilities';
 
+const supportTitle = 'Support';
+const leaveTitle = 'Leave';
+
 const selectedEvents = ref<EventApi[]>([]);
 const toggleSelectedEvent = (event :EventApi) => {
   selectedEvents.value = selectedEvents.value.some((x) => x.id === event.id)
@@ -24,13 +27,13 @@ const events = computed(() => [
       id: crypto.randomUUID(),
       start: x.start.toISODate(),
       end: x.end.toISODate(),
-      title: 'Support',
+      title: supportTitle,
     },
     {
       id: crypto.randomUUID(),
       start: x.start.toISODate(),
       end: x.end.toISODate(),
-      title: 'Leave',
+      title: leaveTitle,
     },
   ]),
 ]);
