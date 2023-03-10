@@ -1,5 +1,6 @@
 import { EventApi, EventInput } from '@fullcalendar/core';
 import { ref, computed, watch } from 'vue';
+import { useColors } from './useColors';
 import { useGoogleCalendar } from './useGoogleCalendar';
 import { useTimeUtilities } from './useTimeUtilities';
 
@@ -15,6 +16,7 @@ const toggleSelectedEvent = (event :EventApi) => {
 };
 
 const { workDayIntervals } = useTimeUtilities();
+const { colorIdMap, colorAndTypeMap } = useColors();
 const { events: _events } = useGoogleCalendar();
 const events = computed(() => [
   ..._events.value.map<EventInput>((event) => ({
@@ -22,6 +24,8 @@ const events = computed(() => [
     start: event.start.dateTime ?? event.start.date,
     end: event.end.dateTime ?? event.end.date,
     title: event.summary,
+    borderColor: colorIdMap.get(event.colorId),
+    textColor: colorIdMap.get(event.colorId),
   })),
   ...workDayIntervals.value.flatMap((x) => [
     {
@@ -29,18 +33,21 @@ const events = computed(() => [
       start: x.start.toISODate(),
       end: x.end.toISODate(),
       title: supportTitle,
+      borderColor: colorAndTypeMap.get('normal'),
     },
     {
       id: crypto.randomUUID(),
       start: x.start.toISODate(),
       end: x.end.toISODate(),
       title: leaveTitle,
+      borderColor: colorAndTypeMap.get('normal'),
     },
     {
       id: crypto.randomUUID(),
       start: x.start.toISODate(),
       end: x.end.toISODate(),
       title: improveTitle,
+      borderColor: colorAndTypeMap.get('normal'),
     },
   ]),
 ]);

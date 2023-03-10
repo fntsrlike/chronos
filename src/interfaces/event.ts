@@ -2,6 +2,7 @@ export interface IEvent {
   id: string;
   summary: string;
   description: string;
+  colorId: string;
   start: {
     date?: string | undefined;
 

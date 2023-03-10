@@ -57,9 +57,10 @@ const calendarOptions = computed<CalendarOptions>(() => ({
     toggleSelectedEvent(event);
 
     const isSelected = selectedEvents.value.some((x) => x.id === event.id);
+    const eventColor = event.borderColor;
 
-    event.setProp('backgroundColor', isSelected ? '#3788d8' : 'white');
-    event.setProp('textColor', isSelected ? 'white' : '#3788d8');
+    event.setProp('backgroundColor', isSelected ? eventColor : 'white');
+    event.setProp('textColor', isSelected ? 'white' : eventColor);
   },
   editable: true,
   eventDrop: (e) => {
