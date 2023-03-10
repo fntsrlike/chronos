@@ -39,6 +39,8 @@ const calendarOptions = computed<CalendarOptions>(() => ({
     start: minDate.value.startOf('week').minus({ days: 1 }).toFormat('yyyy-MM-dd'), // sunday inclusive
     end: maxDate.value.endOf('week').toFormat('yyyy-MM-dd'), // sunday exclusive
   },
+  slotMinTime: '08:00',
+  slotMaxTime: '20:00',
   businessHours: [{
     daysOfWeek: [0, 1, 2, 3, 4, 5, 6],
     startTime: morningBeginTime.value,
