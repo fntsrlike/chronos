@@ -1,5 +1,7 @@
 import { unref } from 'vue';
 import { DateTime } from 'luxon';
+import { storeToRefs } from 'pinia';
+import { useSettingsStore } from 'src/stores/settings-store';
 import { useGoogle } from './useGoogle';
 
 const SPREADSHEET_ID = process.env.SPREADSHEET_ID as string;
@@ -13,9 +15,16 @@ const appendData = async () => {
     insertDataOption: 'INSERT_ROWS',
   };
 
+  const {
+    minDate, maxDate,
+  } = storeToRefs(useSettingsStore());
+
+  const from = minDate.value.toFormat('yyyy-LL-dd');
+  const to = maxDate.value.toFormat('yyyy-LL-dd');
   const createdAt = DateTime.now().toFormat('yyyy-LL-dd TT');
 
   const data = [
+    from, to,
     createdAt,
   ].map((d) => (unref(d)));
 
