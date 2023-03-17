@@ -1,17 +1,13 @@
 import { EventApi, EventInput } from '@fullcalendar/core';
-import { DateTime, Interval } from 'luxon';
 import { ref, computed, watch } from 'vue';
 import { useGoogleCalendar } from './useGoogleCalendar';
 import { useTimeUtilities } from './useTimeUtilities';
 
 const selectedEvents = ref<EventApi[]>([]);
 
-const { workDayIntervals, workTimeIntervals } = useTimeUtilities();
+const { workDayIntervals, workTimeIntervals, createEventInterval } = useTimeUtilities();
 
-const eventsIntervals = computed(() => selectedEvents.value.map((event) => Interval.fromDateTimes(
-  DateTime.fromISO(event.start?.toISOString() ?? ''),
-  DateTime.fromISO(event.end?.toISOString() ?? ''),
-)));
+const eventsIntervals = computed(() => selectedEvents.value.map((event) => createEventInterval(event)));
 
 const devTimeIntervals = computed(() => eventsIntervals.value.reduce((acc, curr) => acc
   .flatMap((x) => x.difference(curr)), workTimeIntervals.value));
