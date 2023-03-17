@@ -18,7 +18,7 @@
 
 <script setup lang="ts">
 import MyCalendar from 'src/components/MyCalendar.vue';
-import { useCalendar } from 'src/composables/useCalendar';
+import { useTimeCalculator } from 'src/composables/useTimeCalculator';
 
-const { devHours, workHours } = useCalendar();
+const { devHours, workHours } = useTimeCalculator();
 </script>

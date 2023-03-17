@@ -42,10 +42,12 @@ import {
 } from 'quasar';
 import { useCalendar } from 'src/composables/useCalendar';
 import { useGoogleSheets } from 'src/composables/useGoogleSheets';
+import { useTimeCalculator } from 'src/composables/useTimeCalculator';
 
 const editor = ref<QEditor>();
 
-const { selectedEvents, devHours, workHours } = useCalendar();
+const { selectedEvents } = useCalendar();
+const { devHours, workHours } = useTimeCalculator();
 const { sendData } = useGoogleSheets();
 
 const model = ref('');
