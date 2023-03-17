@@ -5,6 +5,7 @@ import { useTimeUtilities } from './useTimeUtilities';
 
 const supportTitle = 'Support';
 const leaveTitle = 'Leave';
+const improveTitle = 'Learning Day / Libero';
 
 const selectedEvents = ref<EventApi[]>([]);
 const toggleSelectedEvent = (event :EventApi) => {
@@ -35,6 +36,12 @@ const events = computed(() => [
       end: x.end.toISODate(),
       title: leaveTitle,
     },
+    {
+      id: crypto.randomUUID(),
+      start: x.start.toISODate(),
+      end: x.end.toISODate(),
+      title: improveTitle,
+    },
   ]),
 ]);
 
@@ -46,4 +53,7 @@ export const useCalendar = () => ({
   events,
   selectedEvents,
   toggleSelectedEvent,
+  supportTitle,
+  leaveTitle,
+  improveTitle,
 });
