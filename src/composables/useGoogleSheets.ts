@@ -21,7 +21,7 @@ const appendData = async () => {
   } = storeToRefs(useSettingsStore());
 
   const {
-    workHours, leaveHours, supportHours, meetingHours,
+    workHours, leaveHours, supportHours, meetingHours, improvingHours,
     devHours,
   } = useTimeCalculator();
 
@@ -32,7 +32,7 @@ const appendData = async () => {
   const data = [
     from, to,
     name,
-    workHours, leaveHours, supportHours, meetingHours,
+    workHours, leaveHours, supportHours, meetingHours, improvingHours,
     devHours,
     createdAt,
   ].map((d) => (unref(d)));
