@@ -3,11 +3,13 @@ import { useCalendar } from './useCalendar';
 import { useTimeUtilities } from './useTimeUtilities';
 
 const {
+  leaveTitle,
   selectedEvents,
 } = useCalendar();
 
 const {
   workTimeIntervals,
+  workDayIntervals,
   createEventInterval,
   calcIntervalsDifference,
   intervalsToHours,
@@ -23,13 +25,22 @@ const {
 //   (A) normal = meeting + leave + support
 // When events are overlap, will follow the priority:
 //   (1) > (2) > (3) > (4)
+const leaveEvents = computed(() => selectedEvents.value.filter((event) => (event.title === leaveTitle)));
+
 const eventsIntervals = computed(() => selectedEvents.value.map((event) => createEventInterval(event)));
+const leaveDaysIntervals = computed(() => leaveEvents.value.map((event) => createEventInterval(event)));
+
+// off-work   = the workdays exclude work-time
+const offWorkTimeIntervals = computed(() => calcIntervalsDifference(workDayIntervals.value, workTimeIntervals.value));
+const leaveTimeIntervals = computed(() => calcIntervalsDifference(leaveDaysIntervals.value, offWorkTimeIntervals.value));
 const devTimeIntervals = computed(() => calcIntervalsDifference(workTimeIntervals.value, eventsIntervals.value));
 
+const leaveHours = computed(() => intervalsToHours(leaveTimeIntervals.value));
 const workHours = computed(() => intervalsToHours(workTimeIntervals.value));
 const devHours = computed(() => intervalsToHours(devTimeIntervals.value));
 
 export const useTimeCalculator = () => ({
   workHours,
+  leaveHours,
   devHours,
 });
