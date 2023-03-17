@@ -1,3 +1,5 @@
+import { unref } from 'vue';
+import { DateTime } from 'luxon';
 import { useGoogle } from './useGoogle';
 
 const SPREADSHEET_ID = process.env.SPREADSHEET_ID as string;
@@ -11,9 +13,15 @@ const appendData = async () => {
     insertDataOption: 'INSERT_ROWS',
   };
 
+  const createdAt = DateTime.now().toFormat('yyyy-LL-dd TT');
+
+  const data = [
+    createdAt,
+  ].map((d) => (unref(d)));
+
   const valueRangeBody = {
     majorDimension: 'ROWS',
-    values: [['2025-03-10', 'foo', 'bar', 5566, 9527]], // convert the object's values to an array
+    values: [data],
   };
   await window.gapi.client.sheets.spreadsheets.values.append(params, valueRangeBody);
 };
