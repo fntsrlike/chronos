@@ -8,12 +8,12 @@ const selectedEvents = ref<EventApi[]>([]);
 
 const { workDayIntervals, workTimeIntervals } = useTimeUtilities();
 
-const eventIntervals = computed(() => selectedEvents.value.map((event) => Interval.fromDateTimes(
+const eventsIntervals = computed(() => selectedEvents.value.map((event) => Interval.fromDateTimes(
   DateTime.fromISO(event.start?.toISOString() ?? ''),
   DateTime.fromISO(event.end?.toISOString() ?? ''),
 )));
 
-const devTimeIntervals = computed(() => eventIntervals.value.reduce((acc, curr) => acc
+const devTimeIntervals = computed(() => eventsIntervals.value.reduce((acc, curr) => acc
   .flatMap((x) => x.difference(curr)), workTimeIntervals.value));
 
 const workHours = computed(() => workTimeIntervals.value.reduce((acc, curr) => acc + curr.toDuration('hours').hours, 0));
