@@ -15,6 +15,7 @@ const createEventInterval = (event: any) => Interval.fromDateTimes(
 const calcIntervalsDifference = (minuend : Interval[], subtrahend : Interval[]) => subtrahend.reduce((acc, curr) => acc
   .flatMap((x) => x.difference(curr)), minuend);
 
+const intervalsToHours = (intervals: Interval[]) => intervals.reduce((acc, curr) => acc + curr.toDuration('hours').hours, 0);
 const workDayIntervals = computed(() => days.value
   .flatMap((day) => Interval.fromDateTimes(day.from, day.to).splitBy({ days: 1 })));
 
@@ -25,6 +26,7 @@ const workTimeIntervals = computed(() => workDayIntervals.value.flatMap((day) =>
 
 export const useTimeUtilities = () => ({
   calcIntervalsDifference,
+  intervalsToHours,
   createEventInterval,
   workDayIntervals,
   workTimeIntervals,

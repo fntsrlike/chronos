@@ -10,13 +10,14 @@ const {
   workTimeIntervals,
   createEventInterval,
   calcIntervalsDifference,
+  intervalsToHours,
 } = useTimeUtilities();
 
 const eventsIntervals = computed(() => selectedEvents.value.map((event) => createEventInterval(event)));
 const devTimeIntervals = computed(() => calcIntervalsDifference(workTimeIntervals.value, eventsIntervals.value));
 
-const workHours = computed(() => workTimeIntervals.value.reduce((acc, curr) => acc + curr.toDuration('hours').hours, 0));
-const devHours = computed(() => devTimeIntervals.value.reduce((acc, curr) => acc + curr.toDuration('hours').hours, 0));
+const workHours = computed(() => intervalsToHours(workTimeIntervals.value));
+const devHours = computed(() => intervalsToHours(devTimeIntervals.value));
 
 const toggleSelectedEvent = (event :EventApi) => {
   selectedEvents.value = selectedEvents.value.some((x) => x.id === event.id)
