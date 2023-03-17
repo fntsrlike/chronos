@@ -12,6 +12,7 @@ const createEventInterval = (event: any) => Interval.fromDateTimes(
   DateTime.fromISO(event.end?.toISOString() ?? ''),
 );
 
+const calcIntervalsUnion = (summand : Interval[], addend : Interval[]) => Interval.merge(summand.concat(addend));
 const calcIntervalsDifference = (minuend : Interval[], subtrahend : Interval[]) => subtrahend.reduce((acc, curr) => acc
   .flatMap((x) => x.difference(curr)), minuend);
 
@@ -25,6 +26,7 @@ const workTimeIntervals = computed(() => workDayIntervals.value.flatMap((day) =>
 ]));
 
 export const useTimeUtilities = () => ({
+  calcIntervalsUnion,
   calcIntervalsDifference,
   intervalsToHours,
   createEventInterval,
