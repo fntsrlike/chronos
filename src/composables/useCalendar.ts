@@ -5,12 +5,15 @@ import { useTimeUtilities } from './useTimeUtilities';
 
 const selectedEvents = ref<EventApi[]>([]);
 
-const { workDayIntervals, workTimeIntervals, createEventInterval } = useTimeUtilities();
+const {
+  workDayIntervals,
+  workTimeIntervals,
+  createEventInterval,
+  calcIntervalsDifference,
+} = useTimeUtilities();
 
 const eventsIntervals = computed(() => selectedEvents.value.map((event) => createEventInterval(event)));
-
-const devTimeIntervals = computed(() => eventsIntervals.value.reduce((acc, curr) => acc
-  .flatMap((x) => x.difference(curr)), workTimeIntervals.value));
+const devTimeIntervals = computed(() => calcIntervalsDifference(workTimeIntervals.value, eventsIntervals.value));
 
 const workHours = computed(() => workTimeIntervals.value.reduce((acc, curr) => acc + curr.toDuration('hours').hours, 0));
 const devHours = computed(() => devTimeIntervals.value.reduce((acc, curr) => acc + curr.toDuration('hours').hours, 0));

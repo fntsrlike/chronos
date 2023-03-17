@@ -12,6 +12,9 @@ const createEventInterval = (event: any) => Interval.fromDateTimes(
   DateTime.fromISO(event.end?.toISOString() ?? ''),
 );
 
+const calcIntervalsDifference = (minuend : Interval[], subtrahend : Interval[]) => subtrahend.reduce((acc, curr) => acc
+  .flatMap((x) => x.difference(curr)), minuend);
+
 const workDayIntervals = computed(() => days.value
   .flatMap((day) => Interval.fromDateTimes(day.from, day.to).splitBy({ days: 1 })));
 
@@ -21,6 +24,7 @@ const workTimeIntervals = computed(() => workDayIntervals.value.flatMap((day) =>
 ]));
 
 export const useTimeUtilities = () => ({
+  calcIntervalsDifference,
   createEventInterval,
   workDayIntervals,
   workTimeIntervals,
