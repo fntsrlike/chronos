@@ -6,19 +6,18 @@ import { useTimeUtilities } from './useTimeUtilities';
 
 const selectedEvents = ref<EventApi[]>([]);
 
-const { workDaysInterval, totalWorkIntervals } = useTimeUtilities();
+const { workDayIntervals, workTimeIntervals } = useTimeUtilities();
 
 const eventIntervals = computed(() => selectedEvents.value.map((event) => Interval.fromDateTimes(
   DateTime.fromISO(event.start?.toISOString() ?? ''),
   DateTime.fromISO(event.end?.toISOString() ?? ''),
 )));
 
-const workIntervals = computed(() => eventIntervals.value.reduce((acc, curr) => acc
-  .flatMap((x) => x.difference(curr)), totalWorkIntervals.value));
+const devTimeIntervals = computed(() => eventIntervals.value.reduce((acc, curr) => acc
+  .flatMap((x) => x.difference(curr)), workTimeIntervals.value));
 
-const workHours = computed(() => workIntervals.value.reduce((acc, curr) => acc + curr.toDuration('hours').hours, 0));
-
-const totalHours = computed(() => totalWorkIntervals.value.reduce((acc, curr) => acc + curr.toDuration('hours').hours, 0));
+const workHours = computed(() => workTimeIntervals.value.reduce((acc, curr) => acc + curr.toDuration('hours').hours, 0));
+const devHours = computed(() => devTimeIntervals.value.reduce((acc, curr) => acc + curr.toDuration('hours').hours, 0));
 
 const toggleSelectedEvent = (event :EventApi) => {
   selectedEvents.value = selectedEvents.value.some((x) => x.id === event.id)
@@ -34,7 +33,7 @@ const events = computed(() => [
     end: event.end.dateTime ?? event.end.date,
     title: event.summary,
   })),
-  ...workDaysInterval.value.flatMap((x) => [
+  ...workDayIntervals.value.flatMap((x) => [
     {
       id: crypto.randomUUID(),
       start: x.start.toISODate(),
@@ -59,5 +58,5 @@ export const useCalendar = () => ({
   selectedEvents,
   toggleSelectedEvent,
   workHours,
-  totalHours,
+  devHours,
 });

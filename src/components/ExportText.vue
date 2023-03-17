@@ -45,7 +45,7 @@ import { useGoogleSheets } from 'src/composables/useGoogleSheets';
 
 const editor = ref<QEditor>();
 
-const { selectedEvents, workHours, totalHours } = useCalendar();
+const { selectedEvents, devHours, workHours } = useCalendar();
 const { sendData } = useGoogleSheets();
 
 const model = ref('');
@@ -53,7 +53,7 @@ const model = ref('');
 const beforeShow = () => {
   const sorted = sortBy(selectedEvents.value, (x) => x.startStr);
   const groupedEvents = groupBy(sorted, (x) => DateTime.fromISO(x.startStr).toFormat('MM/dd EEE'));
-  model.value = `Hours: <b>${workHours.value}</b> / ${totalHours.value}
+  model.value = `Hours: <b>${devHours.value}</b> / ${workHours.value}
   <ul>
     ${Object.keys(groupedEvents).map((key) => `
     <li>

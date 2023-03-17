@@ -1,13 +1,13 @@
 <template>
   <q-page class="q-pa-md">
     <div class="row">
-      Work Hours: {{ workHours }}
+      Dev Hours: {{ devHours }} / {{ workHours }}
       <q-linear-progress
         rounded
         size="xl"
         color="warning"
         animation-speed="500"
-        :value="workHours/totalHours"
+        :value="devHours/workHours"
       />
     </div>
     <div class="row">
@@ -20,5 +20,5 @@
 import MyCalendar from 'src/components/MyCalendar.vue';
 import { useCalendar } from 'src/composables/useCalendar';
 
-const { workHours, totalHours } = useCalendar();
+const { devHours, workHours } = useCalendar();
 </script>
