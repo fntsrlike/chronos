@@ -23,6 +23,7 @@ const appendData = async () => {
   const {
     workHours, leaveHours, supportHours, meetingHours, improvingHours,
     devHours, focusDevHours, brokenDevHours,
+    devWithoutImprovingHours, focusDevWithoutImprovingHours, brokenDevWithoutImprovingHours,
   } = useTimeCalculator();
 
   const from = minDate.value.toFormat('yyyy-LL-dd');
@@ -34,6 +35,7 @@ const appendData = async () => {
     name,
     workHours, leaveHours, supportHours, meetingHours, improvingHours,
     devHours, focusDevHours, brokenDevHours,
+    devWithoutImprovingHours, focusDevWithoutImprovingHours, brokenDevWithoutImprovingHours,
     createdAt,
   ].map((d) => (unref(d)));
 

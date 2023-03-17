@@ -63,6 +63,14 @@ const devHours = computed(() => intervalsToHours(devTimeIntervals.value));
 const focusDevHours = computed(() => devTimeIntervals.value.reduce((acc, curr) => (acc + filterOutBrokenTime(curr.toDuration('hours').hours)), 0));
 const brokenDevHours = computed(() => devHours.value - focusDevHours.value);
 
+// Team will decide whether there is time for improvement depending on the manpower situation (dev time)
+const withoutImprovingEvents = computed(() => selectedEvents.value.filter((event) => (event.title !== improveTitle)));
+const withoutImprovingEventIntervals = computed(() => withoutImprovingEvents.value.map((event) => createEventInterval(event)));
+const devTimewithoutImprovingIntervals = computed(() => calcIntervalsDifference(workTimeIntervals.value, withoutImprovingEventIntervals.value));
+const devWithoutImprovingHours = computed(() => intervalsToHours(devTimewithoutImprovingIntervals.value));
+const focusDevWithoutImprovingHours = computed(() => devTimewithoutImprovingIntervals.value.reduce((acc, curr) => (acc + filterOutBrokenTime(curr.toDuration('hours').hours)), 0));
+const brokenDevWithoutImprovingHours = computed(() => devWithoutImprovingHours.value - focusDevWithoutImprovingHours.value);
+
 export const useTimeCalculator = () => ({
   workHours,
   leaveHours,
@@ -72,4 +80,7 @@ export const useTimeCalculator = () => ({
   devHours,
   focusDevHours,
   brokenDevHours,
+  devWithoutImprovingHours,
+  focusDevWithoutImprovingHours,
+  brokenDevWithoutImprovingHours,
 });
