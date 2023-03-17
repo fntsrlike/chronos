@@ -1,21 +1,12 @@
 import { EventApi, EventInput } from '@fullcalendar/core';
 import { DateTime, Interval } from 'luxon';
-import { storeToRefs } from 'pinia';
-import { useSettingsStore } from 'src/stores/settings-store';
 import { ref, computed, watch } from 'vue';
 import { useGoogleCalendar } from './useGoogleCalendar';
+import { useTimeUtilities } from './useTimeUtilities';
 
 const selectedEvents = ref<EventApi[]>([]);
 
-const { days } = storeToRefs(useSettingsStore());
-
-const workDaysInterval = computed(() => days.value
-  .flatMap((day) => Interval.fromDateTimes(day.from, day.to).splitBy({ days: 1 })));
-
-const totalWorkIntervals = computed(() => workDaysInterval.value.flatMap((day) => [
-  Interval.fromDateTimes(day.start.plus({ hours: 11 }), day.start.plus({ hours: 13 })),
-  Interval.fromDateTimes(day.start.plus({ hours: 14 }), day.start.plus({ hours: 18 })),
-]));
+const { workDaysInterval, totalWorkIntervals } = useTimeUtilities();
 
 const eventIntervals = computed(() => selectedEvents.value.map((event) => Interval.fromDateTimes(
   DateTime.fromISO(event.start?.toISOString() ?? ''),
