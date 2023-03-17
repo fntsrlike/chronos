@@ -16,6 +16,7 @@ const {
   calcIntervalsDifference,
   calcIntervalsUnion,
   intervalsToHours,
+  filterOutBrokenTime,
 } = useTimeUtilities();
 
 // There have serveral events:
@@ -59,6 +60,8 @@ const meetingHours = computed(() => intervalsToHours(meetingTimeIntervals.value)
 const improvingHours = computed(() => intervalsToHours(ImprovingIntervals.value));
 const workHours = computed(() => intervalsToHours(workTimeIntervals.value));
 const devHours = computed(() => intervalsToHours(devTimeIntervals.value));
+const focusDevHours = computed(() => devTimeIntervals.value.reduce((acc, curr) => (acc + filterOutBrokenTime(curr.toDuration('hours').hours)), 0));
+const brokenDevHours = computed(() => devHours.value - focusDevHours.value);
 
 export const useTimeCalculator = () => ({
   workHours,
@@ -67,4 +70,6 @@ export const useTimeCalculator = () => ({
   meetingHours,
   improvingHours,
   devHours,
+  focusDevHours,
+  brokenDevHours,
 });

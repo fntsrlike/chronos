@@ -17,6 +17,9 @@ const calcIntervalsDifference = (minuend : Interval[], subtrahend : Interval[]) 
   .flatMap((x) => x.difference(curr)), minuend);
 
 const intervalsToHours = (intervals: Interval[]) => intervals.reduce((acc, curr) => acc + curr.toDuration('hours').hours, 0);
+
+const filterOutBrokenTime = (hours: number) => (hours >= 1 ? hours : 0);
+
 const workDayIntervals = computed(() => days.value
   .flatMap((day) => Interval.fromDateTimes(day.from, day.to).splitBy({ days: 1 })));
 
@@ -29,6 +32,7 @@ export const useTimeUtilities = () => ({
   calcIntervalsUnion,
   calcIntervalsDifference,
   intervalsToHours,
+  filterOutBrokenTime,
   createEventInterval,
   workDayIntervals,
   workTimeIntervals,
