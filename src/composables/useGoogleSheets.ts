@@ -3,6 +3,7 @@ import { DateTime } from 'luxon';
 import { storeToRefs } from 'pinia';
 import { useSettingsStore } from 'src/stores/settings-store';
 import { useGoogle } from './useGoogle';
+import { useTimeCalculator } from './useTimeCalculator';
 
 const SPREADSHEET_ID = process.env.SPREADSHEET_ID as string;
 const SHEET_NAME = process.env.SHEET_NAME as string;
@@ -19,6 +20,11 @@ const appendData = async () => {
     minDate, maxDate, name,
   } = storeToRefs(useSettingsStore());
 
+  const {
+    workHours,
+    devHours,
+  } = useTimeCalculator();
+
   const from = minDate.value.toFormat('yyyy-LL-dd');
   const to = maxDate.value.toFormat('yyyy-LL-dd');
   const createdAt = DateTime.now().toFormat('yyyy-LL-dd TT');
@@ -26,6 +32,8 @@ const appendData = async () => {
   const data = [
     from, to,
     name,
+    workHours,
+    devHours,
     createdAt,
   ].map((d) => (unref(d)));
 
