@@ -22,13 +22,20 @@ const getEvents = async () => {
   }).map((e) => e as IEvent);
 };
 
-const { checkToken } = useGoogle();
+const { checkToken, isAuthenticated } = useGoogle();
 
 const updateEvents = () => {
   checkToken(getEvents);
 };
 
+const updateEventsIfAuthed = () => {
+  if (isAuthenticated.value) {
+    updateEvents();
+  }
+};
+
 export const useGoogleCalendar = () => ({
   updateEvents,
+  updateEventsIfAuthed,
   events,
 });
