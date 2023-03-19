@@ -6,6 +6,11 @@
         </q-card-section>
 
         <q-card-section class="q-pt-none">
+          <q-input outlined v-model="teamName" label="TeamName">
+          </q-input>
+        </q-card-section>
+
+        <q-card-section class="q-pt-none">
           <q-btn-toggle
             v-model="isForecast"
             flat
@@ -48,6 +53,6 @@ import { storeToRefs } from 'pinia';
 import { useGoogleSheets } from 'src/composables/useGoogleSheets';
 import { useSettingsStore } from 'src/stores/settings-store';
 
-const { isForecast } = storeToRefs(useSettingsStore());
+const { teamName, isForecast } = storeToRefs(useSettingsStore());
 const { sendData } = useGoogleSheets();
 </script>
