@@ -11,14 +11,10 @@
           flat
           round
           icon="send"
-          @click="sendData"
           v-if="isAuthenticated"
         >
+        <SendData/>
         </q-btn>
-
-        <q-separator
-          vertical
-          v-if="isAuthenticated"/>
 
         <q-btn
           flat
@@ -133,15 +129,14 @@ import { storeToRefs } from 'pinia';
 import { useSettingsStore } from 'src/stores/settings-store';
 import { useGoogle } from 'src/composables/useGoogle';
 import { useGoogleCalendar } from 'src/composables/useGoogleCalendar';
-import { useGoogleSheets } from 'src/composables/useGoogleSheets';
 import DateSettings from 'src/components/DateSettings.vue';
 import WorkingHourSetting from 'src/components/WorkingHourSetting.vue';
 import OtherSetting from 'src/components/OtherSetting.vue';
+import SendData from 'src/components/SendData.vue';
 import ExportText from 'src/components/ExportText.vue';
 
 const { avatarUrl, isForecast, showDeclinedEvent } = storeToRefs(useSettingsStore());
 const { isLoading, isAuthenticated } = useGoogle();
-const { sendData } = useGoogleSheets();
 const { updateEvents, updateEventsIfAuthed } = useGoogleCalendar();
 
 const toggleRecordType = () => { isForecast.value = !isForecast.value; };
