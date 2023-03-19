@@ -49,6 +49,19 @@
         <q-btn
           flat
           round
+          icon="disabled_visible"
+          :text-color="showDeclinedEvent ? '' : 'grey'"
+          :disable="isLoading"
+          @click="toggleShowDeclined"
+        >
+          <q-tooltip  anchor="bottom middle" self="top middle" class="text-body2 bg-dark">
+            Show declined events
+          </q-tooltip>
+        </q-btn>
+
+        <q-btn
+          flat
+          round
           icon="access_time"
         >
           <q-tooltip anchor="bottom middle" self="top middle" class="text-body2 bg-dark">
@@ -126,10 +139,14 @@ import WorkingHourSetting from 'src/components/WorkingHourSetting.vue';
 import OtherSetting from 'src/components/OtherSetting.vue';
 import ExportText from 'src/components/ExportText.vue';
 
-const { avatarUrl, isForecast } = storeToRefs(useSettingsStore());
+const { avatarUrl, isForecast, showDeclinedEvent } = storeToRefs(useSettingsStore());
 const { isLoading, isAuthenticated } = useGoogle();
-const { updateEvents } = useGoogleCalendar();
 const { sendData } = useGoogleSheets();
+const { updateEvents, updateEventsIfAuthed } = useGoogleCalendar();
 
 const toggleRecordType = () => { isForecast.value = !isForecast.value; };
+const toggleShowDeclined = () => {
+  showDeclinedEvent.value = !showDeclinedEvent.value;
+  updateEventsIfAuthed();
+};
 </script>

@@ -5,7 +5,10 @@ import { IEvent } from '../interfaces/event';
 import { useGoogle } from './useGoogle';
 
 const events = ref<IEvent[]>([]);
-const { minDate, maxDate, email } = storeToRefs(useSettingsStore());
+const {
+  showDeclinedEvent,
+  minDate, maxDate, email,
+} = storeToRefs(useSettingsStore());
 
 const getEvents = async () => {
   const response = await window.gapi.client.calendar.events.list({
@@ -17,6 +20,9 @@ const getEvents = async () => {
   });
 
   events.value = response.result.items.filter((event) => {
+    if (showDeclinedEvent.value) {
+      return true;
+    }
     const attendeeResponse = event.attendees?.filter((attde) => attde.email === email.value).at(0);
     return (attendeeResponse?.responseStatus !== 'declined');
   }).map((e) => e as IEvent);

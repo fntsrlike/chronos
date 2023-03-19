@@ -5,6 +5,8 @@ import { computed, ref } from 'vue';
 import { useLocalStorage } from '@vueuse/core';
 
 export const useSettingsStore = defineStore('settings', () => {
+  const showDeclinedEvent = ref(false);
+
   const name = ref('unknown name');
   const email = ref('unknown@email.com');
   const avatarUrl = ref('');
@@ -38,6 +40,7 @@ export const useSettingsStore = defineStore('settings', () => {
   const getAafternoonEndTimeObject = computed(() => ({ hours: parseInt(afternoonEndTime.value.split(':')[0], 10), minutes: parseInt(afternoonEndTime.value.split(':')[1], 10) }));
 
   return {
+    showDeclinedEvent,
     name,
     email,
     avatarUrl,
