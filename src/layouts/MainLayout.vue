@@ -26,22 +26,6 @@
           </q-tooltip>
           <OtherSetting/>
         </q-btn>
-
-        <q-btn
-          flat
-          round
-          :icon="isForecast ? 'hourglass_top' : 'hourglass_bottom' "
-          :color="isForecast ? 'orange' : 'yellow' "
-          @click="toggleRecordType"
-        >
-          <q-tooltip anchor="bottom middle" self="top middle" class="text-body2 bg-dark" v-if="isForecast" >
-            Forecast mode
-          </q-tooltip>
-          <q-tooltip anchor="bottom middle" self="top middle" class="text-body2 bg-dark" v-if="!isForecast" >
-            Actual mode
-          </q-tooltip>
-        </q-btn>
-
         <q-btn
           flat
           round
