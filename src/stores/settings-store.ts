@@ -37,7 +37,7 @@ export const useSettingsStore = defineStore('settings', () => {
   const getMorningBeginTimeObject = computed(() => ({ hours: parseInt(morningBeginTime.value.split(':')[0], 10), minutes: parseInt(morningBeginTime.value.split(':')[1], 10) }));
   const getMorningEndTimeObject = computed(() => ({ hours: parseInt(morningEndTime.value.split(':')[0], 10), minutes: parseInt(morningEndTime.value.split(':')[1], 10) }));
   const getAfternoonBeginTimeObject = computed(() => ({ hours: parseInt(afternoonBeginTime.value.split(':')[0], 10), minutes: parseInt(afternoonBeginTime.value.split(':')[1], 10) }));
-  const getAafternoonEndTimeObject = computed(() => ({ hours: parseInt(afternoonEndTime.value.split(':')[0], 10), minutes: parseInt(afternoonEndTime.value.split(':')[1], 10) }));
+  const getAfternoonEndTimeObject = computed(() => ({ hours: parseInt(afternoonEndTime.value.split(':')[0], 10), minutes: parseInt(afternoonEndTime.value.split(':')[1], 10) }));
 
   return {
     showDeclinedEvent,
@@ -57,6 +57,6 @@ export const useSettingsStore = defineStore('settings', () => {
     getMorningBeginTimeObject,
     getMorningEndTimeObject,
     getAfternoonBeginTimeObject,
-    getAafternoonEndTimeObject,
+    getAfternoonEndTimeObject,
   };
 });

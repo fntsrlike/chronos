@@ -9,7 +9,7 @@ const {
   getMorningBeginTimeObject,
   getMorningEndTimeObject,
   getAfternoonBeginTimeObject,
-  getAafternoonEndTimeObject,
+  getAfternoonEndTimeObject,
 } = storeToRefs(useSettingsStore());
 
 const createEventInterval = (event: EventApi) => Interval.fromDateTimes(
@@ -30,7 +30,7 @@ const workDayIntervals = computed(() => days.value
 
 const workTimeIntervals = computed(() => workDayIntervals.value.flatMap((day) => [
   Interval.fromDateTimes(day.start.plus(getMorningBeginTimeObject.value), day.start.plus(getMorningEndTimeObject.value)),
-  Interval.fromDateTimes(day.start.plus(getAfternoonBeginTimeObject.value), day.start.plus(getAafternoonEndTimeObject.value)),
+  Interval.fromDateTimes(day.start.plus(getAfternoonBeginTimeObject.value), day.start.plus(getAfternoonEndTimeObject.value)),
 ]));
 
 export const useTimeUtilities = () => ({
