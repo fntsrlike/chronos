@@ -32,8 +32,8 @@ const colorAndTypeMap = new Map([
   ['normal', '#039be5'],
 ]);
 
-export const useColors = () => ({
+export {
   colorNameMap,
   colorIdMap,
   colorAndTypeMap,
-});
+};

@@ -1,6 +1,6 @@
 import { EventApi, EventInput } from '@fullcalendar/core';
 import { ref, computed, watch } from 'vue';
-import { useColors } from './useColors';
+import { colorIdMap, colorAndTypeMap } from 'src/libraries/colors';
 import { useGoogleCalendar } from './useGoogleCalendar';
 import { useTimeUtilities } from './useTimeUtilities';
 
@@ -16,7 +16,6 @@ const toggleSelectedEvent = (event :EventApi) => {
 };
 
 const { workDayIntervals } = useTimeUtilities();
-const { colorIdMap, colorAndTypeMap } = useColors();
 const { events: _events } = useGoogleCalendar();
 const events = computed(() => [
   ..._events.value.map<EventInput>((event) => ({

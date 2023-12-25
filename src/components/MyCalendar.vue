@@ -14,10 +14,9 @@ import { useSettingsStore } from 'src/stores/settings-store';
 import { storeToRefs } from 'pinia';
 import { DateTime } from 'luxon';
 import { FullCalendarRef } from 'src/interfaces/calendar';
-import { useColors } from 'src/composables/useColors';
+import { colorNameMap } from 'src/libraries/colors';
 
 const { events, selectedEvents, toggleSelectedEvent } = useCalendar();
-const { colorNameMap } = useColors();
 const defaultColor = colorNameMap.get('Curious Blue');
 
 const {
