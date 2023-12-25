@@ -1,3 +1,4 @@
+import { EventApi } from '@fullcalendar/core';
 import { DateTime, Interval } from 'luxon';
 import { storeToRefs } from 'pinia';
 import { useSettingsStore } from 'src/stores/settings-store';
@@ -11,7 +12,7 @@ const {
   getAafternoonEndTimeObject,
 } = storeToRefs(useSettingsStore());
 
-const createEventInterval = (event: any) => Interval.fromDateTimes(
+const createEventInterval = (event: EventApi) => Interval.fromDateTimes(
   DateTime.fromISO(event.start?.toISOString() ?? ''),
   DateTime.fromISO(event.end?.toISOString() ?? ''),
 );
