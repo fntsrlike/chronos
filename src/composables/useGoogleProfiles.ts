@@ -4,7 +4,7 @@ import { useSettingsStore } from 'src/stores/settings-store';
 
 const hasProfiles = ref(false);
 
-const getProfiles = async (_gapi: typeof gapi) => {
+const loadProfiles = async (_gapi: typeof gapi) => {
   const response = await _gapi.client.people.people.get({
     resourceName: 'people/me',
     personFields: 'names,emailAddresses,photos',
@@ -19,5 +19,5 @@ const getProfiles = async (_gapi: typeof gapi) => {
 
 export const useGoogleProfiles = () => ({
   hasProfiles,
-  getProfiles,
+  loadProfiles,
 });

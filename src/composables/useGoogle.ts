@@ -38,7 +38,7 @@ isAuthenticated.value = isTokenValid();
 
 const { runSignInCallbacks, runSignOutCallbacks } = useHooks();
 
-const { hasProfiles, getProfiles } = useGoogleProfiles();
+const { hasProfiles, loadProfiles } = useGoogleProfiles();
 
 // Google Identity Services
 const loadGoogle = new Promise<typeof google>((resolve) => {
@@ -63,7 +63,7 @@ const loadGapi = new Promise<typeof gapi>((resolve) => {
           gapi.client.setToken(token.value);
           isAuthenticated.value = true;
           if (!hasProfiles.value) {
-            getProfiles(gapi);
+            loadProfiles(gapi);
           }
           runSignInCallbacks(gapi);
         } else {
