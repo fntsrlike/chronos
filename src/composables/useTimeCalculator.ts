@@ -19,7 +19,7 @@ const {
   filterOutBrokenTime,
 } = useTimeUtilities();
 
-// There have serveral events:
+// There have several events:
 // Basic
 //   (1) leave (whole day)
 //   (2) support (whole day)
