@@ -60,7 +60,7 @@ const loadGapi = new Promise<typeof gapi>((resolve) => {
           gapi.client.setToken(token.value);
           isAuthenticated.value = true;
           if (!hasProfiles.value) {
-            getProfiles();
+            getProfiles(gapi);
           }
         } else {
           token.value = null;
