@@ -6,7 +6,17 @@
         </q-card-section>
 
         <q-card-section class="q-pt-none">
-          <q-input outlined v-model="teamName" label="TeamName">
+          <q-input outlined v-model="spreadsheetId" label="Spreadsheet ID">
+          </q-input>
+        </q-card-section>
+
+        <q-card-section class="q-pt-none">
+          <q-input outlined v-model="sheetName" label="Sheet Name">
+          </q-input>
+        </q-card-section>
+
+        <q-card-section class="q-pt-none">
+          <q-input outlined v-model="teamName" label="Team Name">
           </q-input>
         </q-card-section>
 
@@ -53,5 +63,5 @@ import { useGoogleSheets } from 'src/composables/useGoogleSheets';
 import { useReportGenerator } from 'src/composables/useReportGenerator';
 
 const { teamName, isForecast } = useReportGenerator();
-const { sendData } = useGoogleSheets();
+const { spreadsheetId, sheetName, sendData } = useGoogleSheets();
 </script>

@@ -2,18 +2,19 @@ import { unref } from 'vue';
 import { DateTime } from 'luxon';
 import { storeToRefs } from 'pinia';
 import { useSettingsStore } from 'src/stores/settings-store';
+import { useLocalStorage } from '@vueuse/core';
 import { useReportGenerator } from 'src/composables/useReportGenerator';
 import { useGoogle } from './useGoogle';
 import { useGoogleProfiles } from './useGoogleProfiles';
 import { useTimeCalculator } from './useTimeCalculator';
 
-const SPREADSHEET_ID = process.env.SPREADSHEET_ID as string;
-const SHEET_NAME = process.env.SHEET_NAME as string;
+const spreadsheetId = useLocalStorage('spreadsheetId', '');
+const sheetName = useLocalStorage('sheetName', '');
 
 const appendData = async (_gapi : typeof gapi) => {
   const params = {
-    spreadsheetId: SPREADSHEET_ID,
-    range: SHEET_NAME,
+    spreadsheetId: spreadsheetId.value,
+    range: sheetName.value,
     valueInputOption: 'USER_ENTERED',
     insertDataOption: 'INSERT_ROWS',
   };
@@ -56,5 +57,7 @@ const sendData = () => {
 };
 
 export const useGoogleSheets = () => ({
+  spreadsheetId,
+  sheetName,
   sendData,
 });
