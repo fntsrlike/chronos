@@ -35,63 +35,25 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { groupBy, sortBy } from 'lodash';
-import { DateTime, Interval } from 'luxon';
 import {
   QPageSticky, QBtn, QPopupProxy, QEditor,
 } from 'quasar';
-import { useCalendar } from 'src/composables/useCalendar';
 import { useGoogleSheets } from 'src/composables/useGoogleSheets';
-import { useTimeCalculator } from 'src/composables/useTimeCalculator';
+import { useReportGenerator } from 'src/composables/useReportGenerator';
 
 const editor = ref<QEditor>();
-
-const { selectedEvents } = useCalendar();
-const { devHours, workHours } = useTimeCalculator();
-const { sendData } = useGoogleSheets();
-
-const model = ref('');
-
-const createElement = (tagName: string, ...children: (Node | string)[]) => {
-  const result = document.createElement(tagName);
-  children.forEach((child) => {
-    result.append(child);
-  });
-  return result;
-};
-
-const beforeShow = () => {
-  const sorted = sortBy(selectedEvents.value, (x) => x.startStr);
-  const groupedEvents = groupBy(sorted, (x) => DateTime.fromISO(x.startStr).toFormat('MM/dd EEE'));
-
-  model.value = createElement(
-    'p',
-    createElement(
-      'p',
-      'Hours: ',
-      createElement('b', devHours.value.toString()),
-      ` / ${workHours.value.toString()}`,
-    ),
-    createElement('ul', ...Object.keys(groupedEvents).map((key) => createElement(
-      'li',
-      key,
-      createElement('ul', ...groupedEvents[key].map((event) => {
-        const start = DateTime.fromISO(event.startStr);
-        const end = DateTime.fromISO(event.endStr);
-        const duration = Interval.fromDateTimes(start, end).toDuration('hours').hours;
-        return createElement(
-          'li',
-          `[${duration}] ${event.title}`,
-        );
-      })),
-    ))),
-  ).innerHTML;
-};
-
 const copyAll = () => {
   editor.value?.runCmd('selectAll');
   editor.value?.runCmd('copy');
 };
+
+const { exportTextElements } = useReportGenerator();
+const model = ref('');
+const beforeShow = () => {
+  model.value = exportTextElements().innerHTML;
+};
+
+const { sendData } = useGoogleSheets();
 const sendToGoogleSheet = () => {
   sendData();
 };

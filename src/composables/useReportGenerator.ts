@@ -1,15 +1,26 @@
 import { useLocalStorage } from '@vueuse/core';
 import { computed, ref } from 'vue';
-import { DateTime } from 'luxon';
+import { DateTime, Interval } from 'luxon';
 import { storeToRefs } from 'pinia';
 import { useSettingsStore } from 'src/stores/settings-store';
+import { groupBy, sortBy } from 'lodash';
+import { useCalendar } from 'src/composables/useCalendar';
 import { useGoogleProfiles } from './useGoogleProfiles';
 import { useTimeCalculator } from './useTimeCalculator';
+
+const createElement = (tagName: string, ...children: (Node | string)[]) => {
+  const result = document.createElement(tagName);
+  children.forEach((child) => {
+    result.append(child);
+  });
+  return result;
+};
 
 const teamName = useLocalStorage('teamName', 'awesome team');
 
 const isForecast = ref(true);
 const recordType = computed(() => (isForecast.value ? 'forecast' : 'actual'));
+// const exportTextDom = ref(createElement('p'));
 
 const { minDate, maxDate } = storeToRefs(useSettingsStore());
 
@@ -26,6 +37,36 @@ const from = minDate.value.toFormat('yyyy-LL-dd');
 const to = maxDate.value.toFormat('yyyy-LL-dd');
 const createdAt = DateTime.now().toFormat('yyyy-LL-dd TT');
 
+const { selectedEvents } = useCalendar();
+const exportTextElements = () => {
+  const sorted = sortBy(selectedEvents.value, (x) => x.startStr);
+  const groupedEvents = groupBy(sorted, (x) => DateTime.fromISO(x.startStr).toFormat('MM/dd EEE'));
+  const elements = createElement(
+    'p',
+    createElement(
+      'p',
+      'Hours: ',
+      createElement('b', devHours.value.toString()),
+      ` / ${workHours.value.toString()}`,
+    ),
+    createElement('ul', ...Object.keys(groupedEvents).map((key) => createElement(
+      'li',
+      key,
+      createElement('ul', ...groupedEvents[key].map((event) => {
+        const start = DateTime.fromISO(event.startStr);
+        const end = DateTime.fromISO(event.endStr);
+        const duration = Interval.fromDateTimes(start, end).toDuration('hours').hours;
+        return createElement(
+          'li',
+          `[${duration}] ${event.title}`,
+        );
+      })),
+    ))),
+  );
+
+  return elements;
+};
+
 const dataRow = computed(() => [
   from, to, recordType.value,
   teamName.value, name,
@@ -40,4 +81,5 @@ export const useReportGenerator = () => ({
   isForecast,
   recordType,
   dataRow,
+  exportTextElements,
 });
