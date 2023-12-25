@@ -38,8 +38,8 @@ const calendarOptions = computed<CalendarOptions>(() => ({
   slotEventOverlap: false,
   eventMaxStack: 2,
   validRange: {
-    start: minDate.value.startOf('week').minus({ days: 1 }).toFormat('yyyy-MM-dd'), // sunday inclusive
-    end: maxDate.value.endOf('week').toFormat('yyyy-MM-dd'), // sunday exclusive
+    start: minDate.value.startOf('week').minus({ days: 1 }).toFormat('yyyy-MM-dd'), // Sunday inclusive
+    end: maxDate.value.endOf('week').toFormat('yyyy-MM-dd'), // Sunday exclusive
   },
   slotMinTime: '08:00',
   slotMaxTime: '20:00',
