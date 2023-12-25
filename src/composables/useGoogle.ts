@@ -19,10 +19,11 @@ const SCOPES = [
   'https://www.googleapis.com/auth/userinfo.profile',
 ];
 
+const isLoading = refAutoReset(false, 30 * 1000);
+
 const gapiLoaded = ref(false);
 const gsiLoaded = ref(false);
 const isAuthenticated = ref(false);
-const isLoading = refAutoReset(false, 30 * 1000);
 const { hasProfiles, getProfiles } = useGoogleProfiles();
 
 // Google API
