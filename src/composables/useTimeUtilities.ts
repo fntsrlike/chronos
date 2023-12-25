@@ -2,14 +2,22 @@ import { EventApi } from '@fullcalendar/core';
 import { DateTime, Interval } from 'luxon';
 import { storeToRefs } from 'pinia';
 import { useSettingsStore } from 'src/stores/settings-store';
+import { useLocalStorage } from '@vueuse/core';
+
 import { computed } from 'vue';
+
+const morningBeginTime = useLocalStorage('morningBeginTime', '11:00');
+const morningEndTime = useLocalStorage('morningEndTime', '13:00');
+const afternoonBeginTime = useLocalStorage('afternoonBeginTime', '14:00');
+const afternoonEndTime = useLocalStorage('afternoonEndTime', '18:00');
+
+const getMorningBeginTimeObject = computed(() => ({ hours: parseInt(morningBeginTime.value.split(':')[0], 10), minutes: parseInt(morningBeginTime.value.split(':')[1], 10) }));
+const getMorningEndTimeObject = computed(() => ({ hours: parseInt(morningEndTime.value.split(':')[0], 10), minutes: parseInt(morningEndTime.value.split(':')[1], 10) }));
+const getAfternoonBeginTimeObject = computed(() => ({ hours: parseInt(afternoonBeginTime.value.split(':')[0], 10), minutes: parseInt(afternoonBeginTime.value.split(':')[1], 10) }));
+const getAfternoonEndTimeObject = computed(() => ({ hours: parseInt(afternoonEndTime.value.split(':')[0], 10), minutes: parseInt(afternoonEndTime.value.split(':')[1], 10) }));
 
 const {
   days,
-  getMorningBeginTimeObject,
-  getMorningEndTimeObject,
-  getAfternoonBeginTimeObject,
-  getAfternoonEndTimeObject,
 } = storeToRefs(useSettingsStore());
 
 const createEventInterval = (event: EventApi) => Interval.fromDateTimes(
@@ -41,4 +49,8 @@ export const useTimeUtilities = () => ({
   createEventInterval,
   workDayIntervals,
   workTimeIntervals,
+  morningBeginTime,
+  morningEndTime,
+  afternoonBeginTime,
+  afternoonEndTime,
 });

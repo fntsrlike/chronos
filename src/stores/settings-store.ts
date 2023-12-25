@@ -26,16 +26,6 @@ export const useSettingsStore = defineStore('settings', () => {
   const minDate = computed(() => minBy(days.value, (x) => x.from)?.from ?? DateTime.now().startOf('day'));
   const maxDate = computed(() => maxBy(days.value, (x) => x.to)?.to ?? DateTime.now().startOf('day').plus({ days: 1 }));
 
-  const morningBeginTime = useLocalStorage('morningBeginTime', '11:00');
-  const morningEndTime = useLocalStorage('morningEndTime', '13:00');
-  const afternoonBeginTime = useLocalStorage('afternoonBeginTime', '14:00');
-  const afternoonEndTime = useLocalStorage('afternoonEndTime', '18:00');
-
-  const getMorningBeginTimeObject = computed(() => ({ hours: parseInt(morningBeginTime.value.split(':')[0], 10), minutes: parseInt(morningBeginTime.value.split(':')[1], 10) }));
-  const getMorningEndTimeObject = computed(() => ({ hours: parseInt(morningEndTime.value.split(':')[0], 10), minutes: parseInt(morningEndTime.value.split(':')[1], 10) }));
-  const getAfternoonBeginTimeObject = computed(() => ({ hours: parseInt(afternoonBeginTime.value.split(':')[0], 10), minutes: parseInt(afternoonBeginTime.value.split(':')[1], 10) }));
-  const getAfternoonEndTimeObject = computed(() => ({ hours: parseInt(afternoonEndTime.value.split(':')[0], 10), minutes: parseInt(afternoonEndTime.value.split(':')[1], 10) }));
-
   return {
     showDeclinedEvent,
     teamName,
@@ -44,13 +34,5 @@ export const useSettingsStore = defineStore('settings', () => {
     days,
     minDate,
     maxDate,
-    morningBeginTime,
-    morningEndTime,
-    afternoonBeginTime,
-    afternoonEndTime,
-    getMorningBeginTimeObject,
-    getMorningEndTimeObject,
-    getAfternoonBeginTimeObject,
-    getAfternoonEndTimeObject,
   };
 });

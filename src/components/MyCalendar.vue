@@ -15,17 +15,21 @@ import { storeToRefs } from 'pinia';
 import { DateTime } from 'luxon';
 import { FullCalendarRef } from 'src/interfaces/calendar';
 import { colorNameMap } from 'src/libraries/colors';
+import { useTimeUtilities } from 'src/composables/useTimeUtilities';
 
 const { events, selectedEvents, toggleSelectedEvent } = useCalendar();
 const defaultColor = colorNameMap.get('Curious Blue');
 
 const {
   minDate, maxDate,
+} = storeToRefs(useSettingsStore());
+
+const {
   morningBeginTime,
   morningEndTime,
   afternoonBeginTime,
   afternoonEndTime,
-} = storeToRefs(useSettingsStore());
+} = useTimeUtilities();
 
 const fullCalendar = ref<FullCalendarRef | null>(null);
 

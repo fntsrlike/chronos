@@ -59,13 +59,12 @@
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from 'pinia';
-import { useSettingsStore } from 'src/stores/settings-store';
+import { useTimeUtilities } from 'src/composables/useTimeUtilities';
 
 const {
   morningBeginTime,
   morningEndTime,
   afternoonBeginTime,
   afternoonEndTime,
-} = storeToRefs(useSettingsStore());
+} = useTimeUtilities();
 </script>
