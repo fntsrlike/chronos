@@ -123,8 +123,6 @@ const callGapi = async (callback: (_gapi: typeof gapi) => Promise<void>) => {
     // eslint-disable-next-line no-console
     console.error(e);
 
-    signOut();
-
     Notify.create({
       icon: 'error',
       message: 'Google API error!',
