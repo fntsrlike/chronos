@@ -7,9 +7,9 @@ import { useGoogleProfiles } from './useGoogleProfiles';
 import { useHooks } from './useHooks';
 
 const events : Ref<IEvent[]> = ref([]);
+const showDeclinedEvent = ref(false);
 
 const {
-  showDeclinedEvent,
   minDate, maxDate,
 } = storeToRefs(useSettingsStore());
 
@@ -46,6 +46,7 @@ addSignInCallbacks(getEvents);
 addSignOutCallbacks(clearEvents);
 
 export const useGoogleCalendar = () => ({
+  showDeclinedEvent,
   updateEvents,
   clearEvents,
   events,

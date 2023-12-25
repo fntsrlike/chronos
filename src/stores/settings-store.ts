@@ -5,8 +5,6 @@ import { computed, ref } from 'vue';
 import { useLocalStorage } from '@vueuse/core';
 
 export const useSettingsStore = defineStore('settings', () => {
-  const showDeclinedEvent = ref(false);
-
   const teamName = useLocalStorage('teamName', 'awesome team');
 
   const isForecast = ref(true);
@@ -27,7 +25,6 @@ export const useSettingsStore = defineStore('settings', () => {
   const maxDate = computed(() => maxBy(days.value, (x) => x.to)?.to ?? DateTime.now().startOf('day').plus({ days: 1 }));
 
   return {
-    showDeclinedEvent,
     teamName,
     isForecast,
     recordType,
