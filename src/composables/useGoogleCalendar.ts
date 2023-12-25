@@ -1,11 +1,12 @@
 import { storeToRefs } from 'pinia';
 import { useSettingsStore } from 'src/stores/settings-store';
-import { ref } from 'vue';
+import { Ref, ref } from 'vue';
 import { Notify } from 'quasar';
 import { IEvent } from '../interfaces/event';
 import { useGoogle } from './useGoogle';
 
-const events = ref<IEvent[]>([]);
+const events : Ref<IEvent[]> = ref([]);
+
 const {
   showDeclinedEvent,
   minDate, maxDate, email,
