@@ -5,6 +5,7 @@ import { storeToRefs } from 'pinia';
 import { useSettingsStore } from 'src/stores/settings-store';
 import { groupBy, sortBy } from 'lodash';
 import { useCalendar } from 'src/composables/useCalendar';
+import TurndownService from 'turndown';
 import { useGoogleProfiles } from './useGoogleProfiles';
 import { useTimeCalculator } from './useTimeCalculator';
 
@@ -20,7 +21,6 @@ const teamName = useLocalStorage('teamName', 'awesome team');
 
 const isForecast = ref(true);
 const recordType = computed(() => (isForecast.value ? 'forecast' : 'actual'));
-// const exportTextDom = ref(createElement('p'));
 
 const { minDate, maxDate } = storeToRefs(useSettingsStore());
 
@@ -67,6 +67,9 @@ const exportTextElements = () => {
   return elements;
 };
 
+const turndownService = new TurndownService();
+TurndownService.prototype.escape = (str) => str;
+
 const dataRow = computed(() => [
   from, to, recordType.value,
   teamName.value, name,
@@ -74,6 +77,7 @@ const dataRow = computed(() => [
   devHours.value, focusDevHours.value, brokenDevHours.value,
   devWithoutImprovingHours.value, focusDevWithoutImprovingHours.value, brokenDevWithoutImprovingHours.value,
   createdAt,
+  turndownService.turndown(exportTextElements().innerHTML),
 ]);
 
 export const useReportGenerator = () => ({
