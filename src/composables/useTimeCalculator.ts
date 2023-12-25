@@ -29,11 +29,11 @@ const {
 //   (A) normal = meeting + leave + support
 // When events are overlap, will follow the priority:
 //   (1) > (2) > (3) > (4)
-const unsprint = [leaveTitle, supportTitle, improveTitle];
+const unSprint = [leaveTitle, supportTitle, improveTitle];
 const leaveEvents = computed(() => selectedEvents.value.filter((event) => (event.title === leaveTitle)));
 const supportEvents = computed(() => selectedEvents.value.filter((event) => (event.title === supportTitle)));
 const improveEvents = computed(() => selectedEvents.value.filter((event) => (event.title === improveTitle)));
-const meetingEvents = computed(() => selectedEvents.value.filter((event) => (!unsprint.includes(event.title))));
+const meetingEvents = computed(() => selectedEvents.value.filter((event) => (!unSprint.includes(event.title))));
 
 const eventsIntervals = computed(() => selectedEvents.value.map((event) => createEventInterval(event)));
 const leaveDaysIntervals = computed(() => leaveEvents.value.map((event) => createEventInterval(event)));
