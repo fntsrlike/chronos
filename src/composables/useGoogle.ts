@@ -134,31 +134,12 @@ const callGapi = async (callback: (_gapi: typeof gapi) => Promise<void>) => {
 };
 
 const checkToken = async (callback: () => Promise<void>) => {
-  try {
-    isLoading.value = true;
-    if (gapi.client.getToken() === null) {
-      // Prompt the user to select a Google Account and ask for consent to share their data
-      // when establishing a new session.
-      signIn();
-    } else {
-
-
+  callGapi(async () => {
     if (!hasProfiles.value) {
       await getProfiles();
     }
     await callback();
-    isLoading.value = false;
-  } catch {
-    Notify.create({
-      icon: 'error',
-      message: 'Google script loading timeout!',
-      caption: 'Try disabling your ad blocker',
-      color: 'negative',
-      position: 'top-right',
-      progress: true,
-    });
-    isLoading.value = false;
-  }
+  });
 };
 
 export const useGoogle = () => ({
