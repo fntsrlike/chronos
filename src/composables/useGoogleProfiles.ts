@@ -1,4 +1,5 @@
 import { useSessionStorage } from '@vueuse/core';
+import { useHooks } from './useHooks';
 
 const theName = useSessionStorage('name', 'unknown name');
 const theEmail = useSessionStorage('email', 'unknown@email.com');
@@ -29,6 +30,9 @@ const getProfiles = () => ({
   email: theEmail.value,
   avatarUrl: theAvatarUrl.value,
 });
+
+const { addSignInCallbacks } = useHooks();
+addSignInCallbacks(loadProfiles);
 
 export const useGoogleProfiles = () => ({
   hasProfiles,

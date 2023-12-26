@@ -4,7 +4,6 @@ import {
 import { ref, watchEffect } from 'vue';
 import { Notify } from 'quasar';
 import { DateTime } from 'luxon';
-import { useGoogleProfiles } from './useGoogleProfiles';
 import { useHooks } from './useHooks';
 
 const CLIENT_ID = process.env.GOOGLE_API_CLIENT_ID || '';
@@ -38,8 +37,6 @@ isAuthenticated.value = isTokenValid();
 
 const { runSignInCallbacks, runSignOutCallbacks } = useHooks();
 
-const { hasProfiles, loadProfiles } = useGoogleProfiles();
-
 // Google Identity Services
 const loadGoogle = new Promise<typeof google>((resolve) => {
   useScriptTag('https://accounts.google.com/gsi/client', () => {
@@ -62,9 +59,6 @@ const loadGapi = new Promise<typeof gapi>((resolve) => {
         if (token.value && tokenExpiry.value && tokenExpiry.value > DateTime.now()) {
           gapi.client.setToken(token.value);
           isAuthenticated.value = true;
-          if (!hasProfiles.value) {
-            loadProfiles(gapi);
-          }
           runSignInCallbacks(gapi);
         } else {
           token.value = null;
