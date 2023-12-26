@@ -39,10 +39,14 @@ const updateEvents = () => {
   callGapi(getEvents);
 };
 
+const clearEvents = () => { events.value = []; };
+
 const { addSignInCallbacks, addSignOutCallbacks } = useHooks();
 addSignInCallbacks(getEvents);
+addSignOutCallbacks(clearEvents);
 
 export const useGoogleCalendar = () => ({
   updateEvents,
+  clearEvents,
   events,
 });
