@@ -8,7 +8,7 @@ import { useTimeCalculator } from './useTimeCalculator';
 const SPREADSHEET_ID = process.env.SPREADSHEET_ID as string;
 const SHEET_NAME = process.env.SHEET_NAME as string;
 
-const appendData = async () => {
+const appendData = async (_gapi : typeof gapi) => {
   const params = {
     spreadsheetId: SPREADSHEET_ID,
     range: SHEET_NAME,
@@ -43,12 +43,12 @@ const appendData = async () => {
     majorDimension: 'ROWS',
     values: [data],
   };
-  await window.gapi.client.sheets.spreadsheets.values.append(params, valueRangeBody);
+  await _gapi.client.sheets.spreadsheets.values.append(params, valueRangeBody);
 };
 
-const { checkToken } = useGoogle();
+const { callGapi } = useGoogle();
 const sendData = () => {
-  checkToken(appendData);
+  callGapi(appendData);
 };
 
 export const useGoogleSheets = () => ({
