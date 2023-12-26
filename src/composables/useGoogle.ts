@@ -26,6 +26,11 @@ const gsiLoaded = ref(false);
 const isAuthenticated = ref(false);
 const { hasProfiles, getProfiles } = useGoogleProfiles();
 
+// Google Identity Services
+useScriptTag('https://accounts.google.com/gsi/client', () => {
+  gsiLoaded.value = true;
+});
+
 // Google API
 useScriptTag('https://apis.google.com/js/api.js', () => {
   window.gapi.load('client', async () => {
@@ -35,11 +40,6 @@ useScriptTag('https://apis.google.com/js/api.js', () => {
     });
     gapiLoaded.value = true;
   });
-});
-
-// Google Identity Services
-useScriptTag('https://accounts.google.com/gsi/client', () => {
-  gsiLoaded.value = true;
 });
 
 const checkToken = async (callback: () => Promise<void>) => {
