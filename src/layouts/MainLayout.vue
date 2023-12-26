@@ -99,9 +99,12 @@ import { useGoogleCalendar } from 'src/composables/useGoogleCalendar';
 import SendData from 'src/components/SendData.vue';
 import ExportText from 'src/components/ExportText.vue';
 import LoginDialog from 'src/components/LoginDialog.vue';
+import { ref } from 'vue';
 
 const { avatarUrl, showDeclinedEvent } = storeToRefs(useSettingsStore());
 const { isLoading, isAuthenticated } = useGoogle();
+
+const dialog = ref(!isAuthenticated.value);
 const { updateEvents, updateEventsIfAuthed } = useGoogleCalendar();
 
 const toggleShowDeclined = () => {
