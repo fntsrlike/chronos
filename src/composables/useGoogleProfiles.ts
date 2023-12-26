@@ -13,6 +13,13 @@ const setProfiles = (name: string, email: string, avatarUrl: string) => {
   hasProfiles.value = true;
 };
 
+const clearProfiles = () => {
+  theName.value = 'name';
+  theEmail.value = 'email';
+  theAvatarUrl.value = 'avatarUrl';
+  hasProfiles.value = false;
+};
+
 const loadProfiles = async (_gapi: typeof gapi) => {
   const response = await _gapi.client.people.people.get({
     resourceName: 'people/me',
@@ -31,11 +38,13 @@ const getProfiles = () => ({
   avatarUrl: theAvatarUrl.value,
 });
 
-const { addSignInCallbacks } = useHooks();
+const { addSignInCallbacks, addSignOutCallbacks } = useHooks();
 addSignInCallbacks(loadProfiles);
+addSignOutCallbacks(clearProfiles);
 
 export const useGoogleProfiles = () => ({
   hasProfiles,
   loadProfiles,
   getProfiles,
+  clearProfiles,
 });
