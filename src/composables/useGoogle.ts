@@ -5,6 +5,7 @@ import { ref, watchEffect } from 'vue';
 import { Notify } from 'quasar';
 import { DateTime } from 'luxon';
 import { useGoogleProfiles } from './useGoogleProfiles';
+import { useHooks } from './useHooks';
 
 const CLIENT_ID = process.env.GOOGLE_API_CLIENT_ID || '';
 const API_KEY = process.env.GOOGLE_API_KEY;
@@ -35,6 +36,8 @@ const tokenExpiry = useSessionStorage<DateTime | null>('tokenExpiry', null, {
 const isTokenValid = () : boolean => (token.value && tokenExpiry.value && (tokenExpiry.value > DateTime.now())) || false;
 isAuthenticated.value = isTokenValid();
 
+const { runSignInCallbacks, runSignOutCallbacks } = useHooks();
+
 const { hasProfiles, getProfiles } = useGoogleProfiles();
 
 // Google Identity Services
@@ -62,6 +65,7 @@ const loadGapi = new Promise<typeof gapi>((resolve) => {
           if (!hasProfiles.value) {
             getProfiles(gapi);
           }
+          runSignInCallbacks(gapi);
         } else {
           token.value = null;
           tokenExpiry.value = null;
@@ -102,10 +106,12 @@ const signOut = async () => {
 
     google.accounts.oauth2
       .revoke(token.value.access_token, () => {
+        runSignOutCallbacks();
         token.value = null;
         tokenExpiry.value = null;
         isAuthenticated.value = false;
         isLoading.value = false;
+        runSignOutCallbacks();
         resolve();
       });
   });
