@@ -59,6 +59,9 @@ const loadGapi = new Promise<typeof gapi>((resolve) => {
         if (token.value && tokenExpiry.value && tokenExpiry.value > DateTime.now()) {
           gapi.client.setToken(token.value);
           isAuthenticated.value = true;
+          if (!hasProfiles.value) {
+            getProfiles();
+          }
         } else {
           token.value = null;
           tokenExpiry.value = null;
@@ -135,9 +138,6 @@ const callGapi = async (callback: (_gapi: typeof gapi) => Promise<void>) => {
 
 const checkToken = async (callback: () => Promise<void>) => {
   callGapi(async () => {
-    if (!hasProfiles.value) {
-      await getProfiles();
-    }
     await callback();
   });
 };
