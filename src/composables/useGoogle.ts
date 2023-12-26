@@ -88,6 +88,26 @@ const signIn = async () => {
   });
 };
 
+const signOut = async () => {
+  isLoading.value = true;
+  const google = await loadGoogle;
+  return new Promise<void>((resolve, reject) => {
+    if (!token.value) {
+      reject('no token');
+      return;
+    }
+
+    google.accounts.oauth2
+      .revoke(token.value.access_token, () => {
+        token.value = null;
+        tokenExpiry.value = null;
+        isAuthenticated.value = false;
+        isLoading.value = false;
+        resolve();
+      });
+  });
+};
+
 const checkToken = async (callback: () => Promise<void>) => {
   const google = await loadGoogle;
   const gapi = await loadGapi;
@@ -135,6 +155,7 @@ export const useGoogle = () => ({
 
   isAuthenticated,
   signIn,
+  signOut,
 
   checkToken,
 });
