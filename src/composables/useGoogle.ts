@@ -72,10 +72,34 @@ const loadGapi = new Promise<typeof gapi>((resolve) => {
 });
 
 const checkToken = async (callback: () => Promise<void>) => {
-  isLoading.value = true;
   const google = await loadGoogle;
+  const gapi = await loadGapi;
 
   try {
+    const callbackFn = async () => {
+      isLoading.value = true;
+
+      if (!hasProfiles.value) {
+        await getProfiles();
+      }
+      await callback();
+      isLoading.value = false;
+    };
+
+    const tokenClient = google.accounts.oauth2
+      .initTokenClient({
+        client_id: CLIENT_ID,
+        scope: SCOPES.join(' '),
+        callback: callbackFn,
+      });
+
+    if (gapi.client.getToken() === null) {
+      // Prompt the user to select a Google Account and ask for consent to share their data
+      // when establishing a new session.
+      tokenClient.requestAccessToken();
+    } else {
+      await callbackFn();
+    }
   } catch {
     Notify.create({
       icon: 'error',
@@ -86,30 +110,6 @@ const checkToken = async (callback: () => Promise<void>) => {
       progress: true,
     });
     isLoading.value = false;
-  }
-
-  const callbackFn = async () => {
-    isAuthenticated.value = true;
-    if (!hasProfiles.value) {
-      await getProfiles();
-    }
-    await callback();
-    isLoading.value = false;
-  };
-
-  const tokenClient = google.accounts.oauth2
-    .initTokenClient({
-      client_id: CLIENT_ID,
-      scope: SCOPES.join(' '),
-      callback: callbackFn,
-    });
-
-  if (window.gapi.client.getToken() === null) {
-    // Prompt the user to select a Google Account and ask for consent to share their data
-    // when establishing a new session.
-    tokenClient.requestAccessToken();
-  } else {
-    await callbackFn();
   }
 };
 
