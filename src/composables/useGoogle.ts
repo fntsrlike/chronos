@@ -22,13 +22,14 @@ const SCOPES = [
 const isLoading = refAutoReset(false, 30 * 1000);
 
 const gapiLoaded = ref(false);
-const gsiLoaded = ref(false);
 const isAuthenticated = ref(false);
 const { hasProfiles, getProfiles } = useGoogleProfiles();
 
 // Google Identity Services
-useScriptTag('https://accounts.google.com/gsi/client', () => {
-  gsiLoaded.value = true;
+const loadGoogle = new Promise<typeof google>((resolve) => {
+  useScriptTag('https://accounts.google.com/gsi/client', () => {
+    resolve(google);
+  });
 });
 
 // Google API
@@ -44,8 +45,9 @@ useScriptTag('https://apis.google.com/js/api.js', () => {
 
 const checkToken = async (callback: () => Promise<void>) => {
   isLoading.value = true;
+  const google = await loadGoogle;
+
   try {
-    await until(gsiLoaded).toBeTruthy({ timeout: 3000, throwOnTimeout: true });
     await until(gapiLoaded).toBeTruthy({ timeout: 3000, throwOnTimeout: true });
   } catch {
     Notify.create({
@@ -68,7 +70,7 @@ const checkToken = async (callback: () => Promise<void>) => {
     isLoading.value = false;
   };
 
-  const tokenClient = window.google.accounts.oauth2
+  const tokenClient = google.accounts.oauth2
     .initTokenClient({
       client_id: CLIENT_ID,
       scope: SCOPES.join(' '),
