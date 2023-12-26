@@ -134,34 +134,20 @@ const callGapi = async (callback: (_gapi: typeof gapi) => Promise<void>) => {
 };
 
 const checkToken = async (callback: () => Promise<void>) => {
-  const google = await loadGoogle;
-  const gapi = await loadGapi;
-
   try {
-    const callbackFn = async () => {
-      isLoading.value = true;
-
-      if (!hasProfiles.value) {
-        await getProfiles();
-      }
-      await callback();
-      isLoading.value = false;
-    };
-
-    const tokenClient = google.accounts.oauth2
-      .initTokenClient({
-        client_id: CLIENT_ID,
-        scope: SCOPES.join(' '),
-        callback: callbackFn,
-      });
-
+    isLoading.value = true;
     if (gapi.client.getToken() === null) {
       // Prompt the user to select a Google Account and ask for consent to share their data
       // when establishing a new session.
-      tokenClient.requestAccessToken();
+      signIn();
     } else {
-      await callbackFn();
+
+
+    if (!hasProfiles.value) {
+      await getProfiles();
     }
+    await callback();
+    isLoading.value = false;
   } catch {
     Notify.create({
       icon: 'error',
