@@ -136,12 +136,6 @@ const callGapi = async (callback: (_gapi: typeof gapi) => Promise<void>) => {
   }
 };
 
-const checkToken = async (callback: () => Promise<void>) => {
-  callGapi(async () => {
-    await callback();
-  });
-};
-
 export const useGoogle = () => ({
   isLoading,
 
@@ -150,5 +144,4 @@ export const useGoogle = () => ({
   signOut,
 
   callGapi,
-  checkToken,
 });
