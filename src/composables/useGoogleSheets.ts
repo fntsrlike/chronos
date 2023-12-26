@@ -3,6 +3,7 @@ import { DateTime } from 'luxon';
 import { storeToRefs } from 'pinia';
 import { useSettingsStore } from 'src/stores/settings-store';
 import { useGoogle } from './useGoogle';
+import { useGoogleProfiles } from './useGoogleProfiles';
 import { useTimeCalculator } from './useTimeCalculator';
 
 const SPREADSHEET_ID = process.env.SPREADSHEET_ID as string;
@@ -17,8 +18,11 @@ const appendData = async (_gapi : typeof gapi) => {
   };
 
   const {
-    minDate, maxDate, recordType, teamName, name,
+    minDate, maxDate, recordType, teamName,
   } = storeToRefs(useSettingsStore());
+
+  const { getProfiles } = useGoogleProfiles();
+  const { name } = getProfiles();
 
   const {
     workHours, leaveHours, supportHours, meetingHours, improvingHours,

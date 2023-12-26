@@ -79,12 +79,15 @@ import { storeToRefs } from 'pinia';
 import { useSettingsStore } from 'src/stores/settings-store';
 import { useGoogle } from 'src/composables/useGoogle';
 import { useGoogleCalendar } from 'src/composables/useGoogleCalendar';
+import { useGoogleProfiles } from 'src/composables/useGoogleProfiles';
 import SendData from 'src/components/SendData.vue';
 import ExportText from 'src/components/ExportText.vue';
 import LoginDialog from 'src/components/LoginDialog.vue';
 import { ref } from 'vue';
 
-const { avatarUrl, showDeclinedEvent } = storeToRefs(useSettingsStore());
+const { getProfiles } = useGoogleProfiles();
+const { avatarUrl } = getProfiles();
+const { showDeclinedEvent } = storeToRefs(useSettingsStore());
 const { isLoading, isAuthenticated } = useGoogle();
 
 const dialog = ref(!isAuthenticated.value);

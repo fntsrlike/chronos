@@ -3,13 +3,17 @@ import { useSettingsStore } from 'src/stores/settings-store';
 import { Ref, ref } from 'vue';
 import { IEvent } from '../interfaces/event';
 import { useGoogle } from './useGoogle';
+import { useGoogleProfiles } from './useGoogleProfiles';
 
 const events : Ref<IEvent[]> = ref([]);
 
 const {
   showDeclinedEvent,
-  minDate, maxDate, email,
+  minDate, maxDate,
 } = storeToRefs(useSettingsStore());
+
+const { getProfiles } = useGoogleProfiles();
+const { email } = getProfiles();
 
 const getEvents = async (_gapi: typeof gapi) => {
   const response = await _gapi.client.calendar.events.list({
@@ -24,7 +28,7 @@ const getEvents = async (_gapi: typeof gapi) => {
     if (showDeclinedEvent.value) {
       return true;
     }
-    const attendeeResponse = event.attendees?.filter((attendee) => attendee.email === email.value).at(0);
+    const attendeeResponse = event.attendees?.filter((attendee) => attendee.email === email).at(0);
     return (attendeeResponse?.responseStatus !== 'declined');
   }).map((e) => e as IEvent);
 };

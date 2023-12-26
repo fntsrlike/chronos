@@ -7,9 +7,6 @@ import { useLocalStorage } from '@vueuse/core';
 export const useSettingsStore = defineStore('settings', () => {
   const showDeclinedEvent = ref(false);
 
-  const name = ref('unknown name');
-  const email = ref('unknown@email.com');
-  const avatarUrl = ref('');
   const teamName = useLocalStorage('teamName', 'awesome team');
 
   const isForecast = ref(true);
@@ -41,9 +38,6 @@ export const useSettingsStore = defineStore('settings', () => {
 
   return {
     showDeclinedEvent,
-    name,
-    email,
-    avatarUrl,
     teamName,
     isForecast,
     recordType,
