@@ -1,6 +1,9 @@
-import { refAutoReset, until, useScriptTag } from '@vueuse/core';
-import { ref } from 'vue';
+import {
+  StorageSerializers, useScriptTag, refAutoReset, useSessionStorage,
+} from '@vueuse/core';
+import { ref, watchEffect } from 'vue';
 import { Notify } from 'quasar';
+import { DateTime } from 'luxon';
 import { useGoogleProfiles } from './useGoogleProfiles';
 
 const CLIENT_ID = process.env.GOOGLE_API_CLIENT_ID || '';
@@ -21,8 +24,17 @@ const SCOPES = [
 
 const isLoading = refAutoReset(false, 30 * 1000);
 
-const gapiLoaded = ref(false);
 const isAuthenticated = ref(false);
+const token = useSessionStorage<google.accounts.oauth2.TokenResponse | null>('token', null, { serializer: StorageSerializers.object });
+const tokenExpiry = useSessionStorage<DateTime | null>('tokenExpiry', null, {
+  serializer: {
+    read: (raw) => (raw ? DateTime.fromISO(raw) : null),
+    write: (value) => value?.toISO() ?? '',
+  },
+});
+const isTokenValid = () : boolean => (token.value && tokenExpiry.value && (tokenExpiry.value > DateTime.now())) || false;
+isAuthenticated.value = isTokenValid();
+
 const { hasProfiles, getProfiles } = useGoogleProfiles();
 
 // Google Identity Services
@@ -33,13 +45,29 @@ const loadGoogle = new Promise<typeof google>((resolve) => {
 });
 
 // Google API
-useScriptTag('https://apis.google.com/js/api.js', () => {
-  window.gapi.load('client', async () => {
-    await window.gapi.client.init({
-      apiKey: API_KEY,
-      discoveryDocs: DISCOVERY_DOCS,
+const loadGapi = new Promise<typeof gapi>((resolve) => {
+  useScriptTag('https://apis.google.com/js/api.js', () => {
+    gapi.load('client', async () => {
+      await gapi.client.init({
+        apiKey: API_KEY,
+        discoveryDocs: DISCOVERY_DOCS,
+      });
+
+      isLoading.value = false;
+
+      watchEffect(() => {
+        if (token.value && tokenExpiry.value && tokenExpiry.value > DateTime.now()) {
+          gapi.client.setToken(token.value);
+          isAuthenticated.value = true;
+        } else {
+          token.value = null;
+          tokenExpiry.value = null;
+          isAuthenticated.value = false;
+        }
+      });
+
+      resolve(gapi);
     });
-    gapiLoaded.value = true;
   });
 });
 
@@ -48,7 +76,6 @@ const checkToken = async (callback: () => Promise<void>) => {
   const google = await loadGoogle;
 
   try {
-    await until(gapiLoaded).toBeTruthy({ timeout: 3000, throwOnTimeout: true });
   } catch {
     Notify.create({
       icon: 'error',
