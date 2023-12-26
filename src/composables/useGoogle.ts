@@ -71,6 +71,23 @@ const loadGapi = new Promise<typeof gapi>((resolve) => {
   });
 });
 
+const signIn = async () => {
+  const google = await loadGoogle;
+  return new Promise<google.accounts.oauth2.TokenResponse>((resolve) => {
+    google.accounts.oauth2
+      .initTokenClient({
+        client_id: CLIENT_ID,
+        scope: SCOPES.join(' '),
+        callback: (response) => {
+          token.value = response;
+          tokenExpiry.value = DateTime.now().plus({ seconds: Number(response.expires_in) });
+          resolve(response);
+        },
+      })
+      .requestAccessToken();
+  });
+};
+
 const checkToken = async (callback: () => Promise<void>) => {
   const google = await loadGoogle;
   const gapi = await loadGapi;
@@ -115,6 +132,9 @@ const checkToken = async (callback: () => Promise<void>) => {
 
 export const useGoogle = () => ({
   isLoading,
+
   isAuthenticated,
+  signIn,
+
   checkToken,
 });
