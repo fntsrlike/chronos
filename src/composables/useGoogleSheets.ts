@@ -2,6 +2,7 @@ import { unref } from 'vue';
 import { DateTime } from 'luxon';
 import { storeToRefs } from 'pinia';
 import { useSettingsStore } from 'src/stores/settings-store';
+import { useReportGenerator } from 'src/composables/useReportGenerator';
 import { useGoogle } from './useGoogle';
 import { useGoogleProfiles } from './useGoogleProfiles';
 import { useTimeCalculator } from './useTimeCalculator';
@@ -17,9 +18,8 @@ const appendData = async (_gapi : typeof gapi) => {
     insertDataOption: 'INSERT_ROWS',
   };
 
-  const {
-    minDate, maxDate, recordType, teamName,
-  } = storeToRefs(useSettingsStore());
+  const { minDate, maxDate } = storeToRefs(useSettingsStore());
+  const { recordType, teamName } = useReportGenerator();
 
   const { getProfiles } = useGoogleProfiles();
   const { name } = getProfiles();

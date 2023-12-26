@@ -49,10 +49,9 @@
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from 'pinia';
 import { useGoogleSheets } from 'src/composables/useGoogleSheets';
-import { useSettingsStore } from 'src/stores/settings-store';
+import { useReportGenerator } from 'src/composables/useReportGenerator';
 
-const { teamName, isForecast } = storeToRefs(useSettingsStore());
+const { teamName, isForecast } = useReportGenerator();
 const { sendData } = useGoogleSheets();
 </script>
