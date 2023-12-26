@@ -4,6 +4,7 @@ import { Ref, ref } from 'vue';
 import { IEvent } from '../interfaces/event';
 import { useGoogle } from './useGoogle';
 import { useGoogleProfiles } from './useGoogleProfiles';
+import { useHooks } from './useHooks';
 
 const events : Ref<IEvent[]> = ref([]);
 
@@ -33,20 +34,15 @@ const getEvents = async (_gapi: typeof gapi) => {
   }).map((e) => e as IEvent);
 };
 
-const { callGapi, isAuthenticated } = useGoogle();
-
+const { callGapi } = useGoogle();
 const updateEvents = () => {
   callGapi(getEvents);
 };
 
-const updateEventsIfAuthed = () => {
-  if (isAuthenticated.value) {
-    updateEvents();
-  }
-};
+const { addSignInCallbacks, addSignOutCallbacks } = useHooks();
+addSignInCallbacks(getEvents);
 
 export const useGoogleCalendar = () => ({
   updateEvents,
-  updateEventsIfAuthed,
   events,
 });
