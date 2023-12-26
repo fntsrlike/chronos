@@ -32,32 +32,24 @@
         <q-btn
           flat
           round
-          icon="access_time"
+          icon="refresh"
+          :loading="isLoading"
+          @click="updateEvents"
+          v-if="isAuthenticated"
         >
-          <q-tooltip anchor="bottom middle" self="top middle" class="text-body2 bg-dark">
-            Working Hours
+          <q-tooltip  anchor="bottom middle" self="top middle" class="text-body2 bg-dark">
+            Reload Events
           </q-tooltip>
-
-          <WorkingHourSetting/>
+          <template v-slot:loading>
+            <q-spinner/>
+          </template>
         </q-btn>
 
         <q-btn
           flat
           round
-          icon="date_range"
-        >
-          <q-tooltip anchor="bottom middle" self="top middle" class="text-body2 bg-dark">
-            Working days
-          </q-tooltip>
-
-          <DateSettings/>
-        </q-btn>
-
-        <q-btn
-          flat
-          round
-          :icon="isAuthenticated ? 'face' : 'account_circle'"
-          :text-color="isAuthenticated ? '' : 'grey'"
+          icon="account_circle"
+          text-color="grey"
           :loading="isLoading"
           @click="updateEvents"
           v-if="!isAuthenticated"
@@ -73,12 +65,11 @@
         <q-btn
           flat
           round
-          :loading="isLoading"
-          @click="updateEvents"
+          @click="dialog = true"
           v-if="isAuthenticated"
         >
           <q-tooltip  anchor="bottom middle" self="top middle" class="text-body2 bg-dark">
-            Refresh
+            Sign In
           </q-tooltip>
           <q-avatar size="24px">
             <img :src="avatarUrl">
@@ -96,6 +87,8 @@
 
     <ExportText/>
   </q-layout>
+
+  <LoginDialog v-model="dialog"/>
 </template>
 
 <script setup lang="ts">
@@ -103,10 +96,9 @@ import { storeToRefs } from 'pinia';
 import { useSettingsStore } from 'src/stores/settings-store';
 import { useGoogle } from 'src/composables/useGoogle';
 import { useGoogleCalendar } from 'src/composables/useGoogleCalendar';
-import DateSettings from 'src/components/DateSettings.vue';
-import WorkingHourSetting from 'src/components/WorkingHourSetting.vue';
 import SendData from 'src/components/SendData.vue';
 import ExportText from 'src/components/ExportText.vue';
+import LoginDialog from 'src/components/LoginDialog.vue';
 
 const { avatarUrl, showDeclinedEvent } = storeToRefs(useSettingsStore());
 const { isLoading, isAuthenticated } = useGoogle();
