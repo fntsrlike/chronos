@@ -108,6 +108,31 @@ const signOut = async () => {
   });
 };
 
+const callGapi = async (callback: (_gapi: typeof gapi) => Promise<void>) => {
+  const gapi = await loadGapi;
+
+  try {
+    isLoading.value = true;
+    await signIn();
+    await callback(gapi);
+    isLoading.value = false;
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.error(e);
+
+    signOut();
+
+    Notify.create({
+      icon: 'error',
+      message: 'Google API error!',
+      caption: 'Try again later',
+      color: 'negative',
+      position: 'top-right',
+      progress: true,
+    });
+  }
+};
+
 const checkToken = async (callback: () => Promise<void>) => {
   const google = await loadGoogle;
   const gapi = await loadGapi;
@@ -157,5 +182,6 @@ export const useGoogle = () => ({
   signIn,
   signOut,
 
+  callGapi,
   checkToken,
 });
