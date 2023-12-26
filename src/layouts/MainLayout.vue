@@ -91,10 +91,10 @@ const { showDeclinedEvent } = storeToRefs(useSettingsStore());
 const { isLoading, isAuthenticated } = useGoogle();
 
 const dialog = ref(!isAuthenticated.value);
-const { updateEvents, updateEventsIfAuthed } = useGoogleCalendar();
+const { updateEvents } = useGoogleCalendar();
 
 const toggleShowDeclined = () => {
   showDeclinedEvent.value = !showDeclinedEvent.value;
-  updateEventsIfAuthed();
+  updateEvents();
 };
 </script>
