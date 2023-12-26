@@ -13,7 +13,7 @@
           icon="send"
           v-if="isAuthenticated"
         >
-        <SendData/>
+          <SendData/>
         </q-btn>
 
         <q-btn
